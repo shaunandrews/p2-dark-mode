@@ -227,16 +227,16 @@
   background-color: #3a3a3a !important;
 }
 
-/* Remove/hide light borders */
+/* Make borders match dark bg */
 .p2-dark-mode-enabled .o2-post-comments,
 .p2-dark-mode-enabled .o2-post,
 .p2-dark-mode-enabled .comment,
 .p2-dark-mode-enabled article,
 .p2-dark-mode-enabled .entry-content,
 .p2-dark-mode-enabled [class*="o2-"] {
-  border-color: transparent !important;
-  border-bottom-color: transparent !important;
-  border-top-color: transparent !important;
+  border-color: #1a1a1a !important;
+  border-bottom-color: #1a1a1a !important;
+  border-top-color: #1a1a1a !important;
 }
 
 /* ==========================================================================
