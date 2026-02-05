@@ -126,58 +126,44 @@
   }, 1000);
 
   /**
-   * Nuclear option: directly set background on stubborn elements
+   * Nuclear option: force EVERYTHING to dark bg
    */
   function forceFixBackgrounds() {
     const darkBg = '#1a1a1a';
-    const darkBgSecondary = '#242424';
-    const selectors = [
-      'article',
-      'article.post',
-      '.post',
-      '.type-post',
-      '.hentry',
-      'main',
-      '#content',
-      'header.entry-header',
-      '.entry-header',
-      'footer.entry-meta',
-      '.entry-meta',
-      '.o2-post',
-      '.p2020-post'
-    ];
     
-    const secondarySelectors = [
-      '.o2-editor',
-      '.o2-editor-wrapper',
-      '#respond'
-    ];
-    
-    selectors.forEach(function(sel) {
-      document.querySelectorAll(sel).forEach(function(el) {
-        const bg = getComputedStyle(el).backgroundColor;
-        if (bg === 'rgb(255, 255, 255)' || bg === 'white' || bg === 'rgb(243, 243, 243)') {
-          el.style.setProperty('background-color', darkBg, 'important');
-          console.log('P2 Dark Mode: Force-fixed background on', sel);
-        }
-      });
+    // Find ALL elements with white-ish backgrounds and fix them
+    document.querySelectorAll('*').forEach(function(el) {
+      const bg = getComputedStyle(el).backgroundColor;
+      // Match white, near-white, and light grays
+      if (bg === 'rgb(255, 255, 255)' || 
+          bg === 'white' || 
+          bg === 'rgb(243, 243, 243)' ||
+          bg === 'rgb(240, 240, 240)' ||
+          bg === 'rgb(248, 248, 248)' ||
+          bg === 'rgb(250, 250, 250)') {
+        el.style.setProperty('background-color', darkBg, 'important');
+      }
     });
     
-    // Secondary background elements (slightly lighter)
-    secondarySelectors.forEach(function(sel) {
-      document.querySelectorAll(sel).forEach(function(el) {
-        const bg = getComputedStyle(el).backgroundColor;
-        if (bg === 'rgb(255, 255, 255)' || bg === 'white') {
-          el.style.setProperty('background-color', darkBgSecondary, 'important');
-          console.log('P2 Dark Mode: Force-fixed secondary background on', sel);
-        }
-      });
+    // Specifically target GitHub embeds with inline styles
+    document.querySelectorAll('[class*="wp-block-p2-embed-github"]').forEach(function(el) {
+      el.style.setProperty('background-color', darkBg, 'important');
+      el.style.setProperty('background', darkBg, 'important');
     });
     
-    // Fix tags
-    document.querySelectorAll('a.tag, .tag').forEach(function(el) {
-      el.style.setProperty('background-color', '#2e2e2e', 'important');
-      el.style.setProperty('color', '#56a7d7', 'important');
+    // Target has-background class
+    document.querySelectorAll('.has-background').forEach(function(el) {
+      el.style.setProperty('background-color', darkBg, 'important');
     });
+    
+    // Target editor components
+    document.querySelectorAll('[class*="editor-"], [class*="interface-"], [class*="block-editor-"]').forEach(function(el) {
+      const bg = getComputedStyle(el).backgroundColor;
+      if (bg === 'rgb(255, 255, 255)' || bg === 'white') {
+        el.style.setProperty('background-color', darkBg, 'important');
+      }
+    });
+    
+    console.log('P2 Dark Mode: Force-fixed all backgrounds');
   }
 })();

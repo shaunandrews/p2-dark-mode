@@ -1,112 +1,138 @@
 /**
  * P2 Dark Mode Stylesheet
  * 
- * Designed dark palette for comfortable night reading.
- * Triggered by .p2-dark-mode-enabled class added by content script.
- * 
- * Uses !important to override P2 theme specificity.
+ * Single dark background color everywhere. Simple.
  */
 
-/* ==========================================================================
-   Color Palette (CSS Custom Properties)
-   ========================================================================== */
-
+/* THE ONE BACKGROUND COLOR */
 .p2-dark-mode-enabled {
-  --p2-bg-primary: #1a1a1a;
-  --p2-bg-secondary: #242424;
-  --p2-bg-tertiary: #2e2e2e;
-  --p2-text-primary: #e6e6e6;
-  --p2-text-secondary: #c9c9c9;
-  --p2-text-tertiary: #8c8c8c;
-  --p2-link: #56a7d7;
-  --p2-link-hover: #7abce6;
-  --p2-border: #3a3a3a;
-  --p2-blockquote-border: #5b7aed;
-  --p2-blockquote-bg: #1e2440;
-  --p2-code-bg: #2d2d2d;
-  --p2-mention-bg: #2c3e4a;
+  --p2-dark-bg: #1a1a1a;
+  --p2-dark-text: #c9c9c9;
+  --p2-dark-text-bright: #e6e6e6;
+  --p2-dark-text-dim: #8c8c8c;
+  --p2-dark-link: #56a7d7;
+  --p2-dark-border: #3a3a3a;
 }
 
 /* ==========================================================================
-   P2-Specific Global Overrides
+   EVERYTHING GETS THE SAME BACKGROUND
    ========================================================================== */
 
-/* Body backgrounds */
-body.p2-dark-mode-enabled,
-.p2-dark-mode-enabled {
-  background-color: #1a1a1a !important;
-  color: #c9c9c9 !important;
-}
-
-/* Main content area */
+.p2-dark-mode-enabled,
+.p2-dark-mode-enabled body,
 .p2-dark-mode-enabled main,
-.p2-dark-mode-enabled main#content,
 .p2-dark-mode-enabled #content,
-.p2-dark-mode-enabled .site-content,
-.p2-dark-mode-enabled .o2-app {
-  background-color: #1a1a1a !important;
-}
-
-/* Article / Post - THE KEY FIX */
 .p2-dark-mode-enabled article,
-.p2-dark-mode-enabled article.post,
 .p2-dark-mode-enabled .post,
-.p2-dark-mode-enabled .type-post,
 .p2-dark-mode-enabled .hentry,
 .p2-dark-mode-enabled .o2-post,
-.p2-dark-mode-enabled .o2-posts,
-.p2-dark-mode-enabled #o2-wrapper,
-body.p2-dark-mode-enabled article.post.type-post.status-publish,
-html.p2-dark-mode-enabled body article,
-html body.p2-dark-mode-enabled article {
-  background-color: #1a1a1a !important;
-}
-
-/* NUCLEAR: Target ANY element with white background inside enabled body */
-body.p2-dark-mode-enabled article[class*="post"] {
-  background-color: #1a1a1a !important;
-}
-
-/* Post content inner wrappers */
-.p2-dark-mode-enabled article > div,
-.p2-dark-mode-enabled article > div > div,
+.p2-dark-mode-enabled .p2020-post,
+.p2-dark-mode-enabled .o2-app,
+.p2-dark-mode-enabled header.entry-header,
+.p2-dark-mode-enabled .entry-header,
+.p2-dark-mode-enabled footer.entry-meta,
+.p2-dark-mode-enabled .entry-meta,
 .p2-dark-mode-enabled .entry-content,
-.p2-dark-mode-enabled .o2-post-content {
+.p2-dark-mode-enabled aside,
+.p2-dark-mode-enabled .widget,
+.p2-dark-mode-enabled .comment,
+.p2-dark-mode-enabled .o2-comment,
+.p2-dark-mode-enabled .o2-post-comments,
+.p2-dark-mode-enabled .thread-odd,
+.p2-dark-mode-enabled .thread-even,
+.p2-dark-mode-enabled .thread-alt,
+.p2-dark-mode-enabled .depth-1,
+.p2-dark-mode-enabled .depth-2,
+.p2-dark-mode-enabled .depth-3,
+.p2-dark-mode-enabled [class*="depth-"],
+.p2-dark-mode-enabled .o2-editor,
+.p2-dark-mode-enabled .o2-editor-wrapper,
+.p2-dark-mode-enabled #respond,
+.p2-dark-mode-enabled .comment-respond,
+.p2-dark-mode-enabled blockquote,
+.p2-dark-mode-enabled pre,
+.p2-dark-mode-enabled code {
   background-color: #1a1a1a !important;
+  color: #c9c9c9 !important;
 }
 
 /* ==========================================================================
-   P2 Sidebar
+   GITHUB EMBEDS - Override inline styles
    ========================================================================== */
 
-.p2-dark-mode-enabled .p2020-sidebar,
-.p2-dark-mode-enabled .o2-sidebar,
-.p2-dark-mode-enabled aside,
-.p2-dark-mode-enabled [role="complementary"] {
-  background-color: #242424 !important;
-  color: #c9c9c9 !important;
+.p2-dark-mode-enabled .wp-block-p2-embed-github,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__main,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__left-container,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__right-container,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-content,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-description,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__rehydrate-placeholder,
+.p2-dark-mode-enabled [class*="wp-block-p2-embed-github"],
+.p2-dark-mode-enabled div[class*="wp-block-p2-embed-github"][style] {
+  background-color: #1a1a1a !important;
+  background: #1a1a1a !important;
 }
 
-.p2-dark-mode-enabled .p2020-sidebar-site-title,
-.p2-dark-mode-enabled .p2020-sidebar-site-description {
-  color: #e6e6e6 !important;
+/* GitHub embed has-background class with inline style - nuclear override */
+.p2-dark-mode-enabled .has-background,
+.p2-dark-mode-enabled [style*="background-color"] {
+  background-color: #1a1a1a !important;
 }
 
-.p2-dark-mode-enabled .widget,
-.p2-dark-mode-enabled .widget_text {
-  background-color: transparent !important;
-  color: #c9c9c9 !important;
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title-text,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title a,
+.p2-dark-mode-enabled .wp-block-p2-embed-github a {
+  color: #56a7d7 !important;
 }
 
-.p2-dark-mode-enabled .widget h2,
-.p2-dark-mode-enabled .widget h3,
-.p2-dark-mode-enabled .widget h4,
-.p2-dark-mode-enabled .widget-title {
-  color: #e6e6e6 !important;
+.p2-dark-mode-enabled .wp-block-p2-embed-github__type-badge {
+  background-color: #2a5a2a !important;
+  color: #7dd87d !important;
 }
 
 /* ==========================================================================
-   Typography - Headings
+   COMMENT EDITOR - Block editor components
+   ========================================================================== */
+
+.p2-dark-mode-enabled .p2-editor,
+.p2-dark-mode-enabled .p2-editor__comment,
+.p2-dark-mode-enabled .iso-editor,
+.p2-dark-mode-enabled .iso-editor__selected,
+.p2-dark-mode-enabled .block-editor,
+.p2-dark-mode-enabled .edit-post-layout,
+.p2-dark-mode-enabled .editor-header,
+.p2-dark-mode-enabled .edit-post-header,
+.p2-dark-mode-enabled .interface-interface-skeleton,
+.p2-dark-mode-enabled .interface-interface-skeleton__header,
+.p2-dark-mode-enabled .interface-interface-skeleton__body,
+.p2-dark-mode-enabled .interface-navigable-region,
+.p2-dark-mode-enabled .editor-styles-wrapper,
+.p2-dark-mode-enabled .block-editor-block-list__layout,
+.p2-dark-mode-enabled [class*="interface-"],
+.p2-dark-mode-enabled [class*="editor-"],
+.p2-dark-mode-enabled [class*="block-editor-"] {
+  background-color: #1a1a1a !important;
+  background: #1a1a1a !important;
+  color: #c9c9c9 !important;
+}
+
+/* Editor toolbar */
+.p2-dark-mode-enabled .components-toolbar,
+.p2-dark-mode-enabled .block-editor-block-toolbar,
+.p2-dark-mode-enabled .editor-header__toolbar {
+  background-color: #1a1a1a !important;
+  border-color: #3a3a3a !important;
+}
+
+.p2-dark-mode-enabled .components-toolbar button,
+.p2-dark-mode-enabled .components-button {
+  color: #c9c9c9 !important;
+}
+
+/* ==========================================================================
+   HEADINGS
    ========================================================================== */
 
 .p2-dark-mode-enabled h1,
@@ -118,166 +144,71 @@ body.p2-dark-mode-enabled article[class*="post"] {
 .p2-dark-mode-enabled .entry-title,
 .p2-dark-mode-enabled .entry-title a {
   color: #e6e6e6 !important;
+  background-color: transparent !important;
 }
 
 /* ==========================================================================
-   Typography - Body Text
-   ========================================================================== */
-
-.p2-dark-mode-enabled p,
-.p2-dark-mode-enabled li,
-.p2-dark-mode-enabled .entry-content,
-.p2-dark-mode-enabled .entry-content p,
-.p2-dark-mode-enabled .entry-content li,
-.p2-dark-mode-enabled .o2-post-content,
-.p2-dark-mode-enabled .o2-post-content p {
-  color: #c9c9c9 !important;
-}
-
-/* ==========================================================================
-   Typography - Meta & Timestamps
-   ========================================================================== */
-
-.p2-dark-mode-enabled .entry-meta,
-.p2-dark-mode-enabled .entry-meta a,
-.p2-dark-mode-enabled time,
-.p2-dark-mode-enabled .comment-date,
-.p2-dark-mode-enabled .o2-timestamp,
-.p2-dark-mode-enabled .o2-post-meta,
-.p2-dark-mode-enabled small {
-  color: #8c8c8c !important;
-}
-
-/* ==========================================================================
-   Links
+   LINKS - No background, just color
    ========================================================================== */
 
 .p2-dark-mode-enabled a {
   color: #56a7d7 !important;
+  background-color: transparent !important;
 }
 
-.p2-dark-mode-enabled a:hover,
-.p2-dark-mode-enabled a:focus {
+.p2-dark-mode-enabled a:hover {
   color: #7abce6 !important;
 }
 
-.p2-dark-mode-enabled .entry-title a {
-  color: #e6e6e6 !important;
-}
-
-.p2-dark-mode-enabled .entry-title a:hover {
-  color: #56a7d7 !important;
-}
-
-/* Mention links (@username) */
+/* Mentions - same deal, no special bg */
 .p2-dark-mode-enabled a[href*="/mentions/"],
 .p2-dark-mode-enabled .o2-mention {
-  color: #56a7d7 !important;
-  background-color: #2c3e4a !important;
-  padding: 0.1em 0.3em;
-  border-radius: 3px;
-}
-
-/* ==========================================================================
-   Comments - P2 O2 System
-   ========================================================================== */
-
-.p2-dark-mode-enabled .comment,
-.p2-dark-mode-enabled .o2-comment,
-.p2-dark-mode-enabled .comment-body,
-.p2-dark-mode-enabled .o2-comment-content {
-  background-color: #242424 !important;
-  color: #c9c9c9 !important;
-  border-color: #3a3a3a !important;
-}
-
-.p2-dark-mode-enabled .comment-author,
-.p2-dark-mode-enabled .o2-comment-author,
-.p2-dark-mode-enabled .comment-author a {
-  color: #e6e6e6 !important;
-}
-
-.p2-dark-mode-enabled .comment .comment,
-.p2-dark-mode-enabled .o2-comment .o2-comment {
-  background-color: #2e2e2e !important;
-}
-
-.p2-dark-mode-enabled .comment-reply-link,
-.p2-dark-mode-enabled .o2-post-reply,
-.p2-dark-mode-enabled .o2-reply {
   color: #56a7d7 !important;
   background-color: transparent !important;
 }
 
-.p2-dark-mode-enabled .comments-count,
-.p2-dark-mode-enabled #comments-count {
-  color: #e6e6e6 !important;
-}
-
 /* ==========================================================================
-   AI Summary Box
+   TAGS - Simple dark bg
    ========================================================================== */
 
-.p2-dark-mode-enabled .ai-summary,
-.p2-dark-mode-enabled [class*="ai-summary"],
-.p2-dark-mode-enabled .wp-block-p2-ai-summary,
-.p2-dark-mode-enabled [class*="AiSummary"],
-.p2-dark-mode-enabled [class*="aisummary"] {
-  background-color: #242424 !important;
-  border-color: #3a3a3a !important;
-  color: #c9c9c9 !important;
-}
-
-/* Target the AI summary wrapper div */
-.p2-dark-mode-enabled article > div > div:first-child {
+.p2-dark-mode-enabled a.tag,
+.p2-dark-mode-enabled .tag {
   background-color: #1a1a1a !important;
+  color: #56a7d7 !important;
+  border: 1px solid #3a3a3a !important;
 }
 
 /* ==========================================================================
-   Blockquotes
+   META TEXT
    ========================================================================== */
 
-.p2-dark-mode-enabled blockquote {
-  background-color: #1e2440 !important;
-  border-left-color: #5b7aed !important;
-  border-left-width: 4px;
-  border-left-style: solid;
-  color: #c9c9c9 !important;
-}
-
-.p2-dark-mode-enabled blockquote p {
-  color: #c9c9c9 !important;
+.p2-dark-mode-enabled time,
+.p2-dark-mode-enabled .comment-date,
+.p2-dark-mode-enabled small,
+.p2-dark-mode-enabled .entry-meta a {
+  color: #8c8c8c !important;
 }
 
 /* ==========================================================================
-   Code Blocks
+   BUTTONS
    ========================================================================== */
 
-.p2-dark-mode-enabled code,
-.p2-dark-mode-enabled pre,
-.p2-dark-mode-enabled pre code,
-.p2-dark-mode-enabled .wp-block-code {
-  background-color: #2d2d2d !important;
-  color: #c9c9c9 !important;
+.p2-dark-mode-enabled button,
+.p2-dark-mode-enabled input[type="submit"],
+.p2-dark-mode-enabled .button {
+  background-color: #2e2e2e !important;
+  color: #e6e6e6 !important;
   border-color: #3a3a3a !important;
 }
 
-.p2-dark-mode-enabled p code,
-.p2-dark-mode-enabled li code {
-  background-color: #2d2d2d !important;
-  color: #c9c9c9 !important;
-  padding: 0.15em 0.4em;
-  border-radius: 3px;
-}
-
 /* ==========================================================================
-   Forms & Inputs
+   INPUTS
    ========================================================================== */
 
 .p2-dark-mode-enabled input,
 .p2-dark-mode-enabled textarea,
 .p2-dark-mode-enabled select {
-  background-color: #2e2e2e !important;
+  background-color: #1a1a1a !important;
   color: #e6e6e6 !important;
   border-color: #3a3a3a !important;
 }
@@ -287,49 +218,8 @@ body.p2-dark-mode-enabled article[class*="post"] {
   color: #8c8c8c !important;
 }
 
-.p2-dark-mode-enabled button,
-.p2-dark-mode-enabled input[type="submit"],
-.p2-dark-mode-enabled input[type="button"],
-.p2-dark-mode-enabled .button {
-  background-color: #2e2e2e !important;
-  color: #e6e6e6 !important;
-  border-color: #3a3a3a !important;
-}
-
-.p2-dark-mode-enabled button:hover,
-.p2-dark-mode-enabled .button:hover {
-  background-color: #3a3a3a !important;
-}
-
 /* ==========================================================================
-   GitHub Embeds
-   ========================================================================== */
-
-.p2-dark-mode-enabled .wp-block-p2-embed-github,
-.p2-dark-mode-enabled [class*="wp-block-p2-embed"] {
-  background-color: #242424 !important;
-  border-color: #3a3a3a !important;
-}
-
-.p2-dark-mode-enabled .wp-block-p2-embed-github__type-badge {
-  background-color: #2e2e2e !important;
-  color: #c9c9c9 !important;
-}
-
-/* ==========================================================================
-   Tooltips & Popovers
-   ========================================================================== */
-
-.p2-dark-mode-enabled [role="tooltip"],
-.p2-dark-mode-enabled .tooltip,
-.p2-dark-mode-enabled .o2-tooltip {
-  background-color: #242424 !important;
-  color: #e6e6e6 !important;
-  border-color: #3a3a3a !important;
-}
-
-/* ==========================================================================
-   Borders & Dividers
+   BORDERS
    ========================================================================== */
 
 .p2-dark-mode-enabled hr {
@@ -338,209 +228,42 @@ body.p2-dark-mode-enabled article[class*="post"] {
 }
 
 /* ==========================================================================
-   Lists
+   NAV LINKS (prev/next)
    ========================================================================== */
 
-.p2-dark-mode-enabled ul,
-.p2-dark-mode-enabled ol {
-  color: #c9c9c9 !important;
-}
-
-.p2-dark-mode-enabled li {
-  background-color: transparent !important;
+.p2-dark-mode-enabled nav,
+.p2-dark-mode-enabled .navigation {
+  background-color: #1a1a1a !important;
 }
 
 /* ==========================================================================
-   Protected Media Elements
+   PROTECTED MEDIA
    ========================================================================== */
 
 .p2-dark-mode-enabled img,
 .p2-dark-mode-enabled video,
 .p2-dark-mode-enabled iframe,
-.p2-dark-mode-enabled canvas,
-.p2-dark-mode-enabled .avatar,
-.p2-dark-mode-enabled img.avatar {
+.p2-dark-mode-enabled .avatar {
   filter: none !important;
 }
 
 /* ==========================================================================
-   Scrollbars (Webkit)
+   SCROLLBARS
    ========================================================================== */
 
 .p2-dark-mode-enabled ::-webkit-scrollbar {
-  background-color: #242424;
+  background-color: #1a1a1a;
 }
 
 .p2-dark-mode-enabled ::-webkit-scrollbar-thumb {
   background-color: #3a3a3a;
-  border-radius: 4px;
 }
 
 /* ==========================================================================
-   Selection Highlight
+   SELECTION
    ========================================================================== */
 
 .p2-dark-mode-enabled ::selection {
-  background-color: #2c3e4a !important;
+  background-color: #3a5a7a !important;
   color: #e6e6e6 !important;
-}
-
-.p2-dark-mode-enabled ::-moz-selection {
-  background-color: #2c3e4a !important;
-  color: #e6e6e6 !important;
-}
-
-/* ==========================================================================
-   Post Header (entry-header) - FIX WHITE BG
-   ========================================================================== */
-
-.p2-dark-mode-enabled header.entry-header,
-.p2-dark-mode-enabled .entry-header,
-.p2-dark-mode-enabled .entry-header__content,
-.p2-dark-mode-enabled .p2020-post > header {
-  background-color: #1a1a1a !important;
-}
-
-/* ==========================================================================
-   Entry Meta / Footer - FIX WHITE BG
-   ========================================================================== */
-
-.p2-dark-mode-enabled footer.entry-meta,
-.p2-dark-mode-enabled .entry-meta,
-.p2-dark-mode-enabled .o2-post footer {
-  background-color: #1a1a1a !important;
-}
-
-.p2-dark-mode-enabled .comments-count,
-.p2-dark-mode-enabled #comments-count {
-  background-color: #1a1a1a !important;
-  color: #e6e6e6 !important;
-}
-
-/* ==========================================================================
-   Tags - FIX WHITE BG
-   ========================================================================== */
-
-.p2-dark-mode-enabled a.tag,
-.p2-dark-mode-enabled .tag,
-.p2-dark-mode-enabled [class*="tag-"] a,
-.p2-dark-mode-enabled a[href*="/tag/"] {
-  background-color: #2e2e2e !important;
-  color: #56a7d7 !important;
-  border-color: #3a3a3a !important;
-}
-
-.p2-dark-mode-enabled a.tag:hover {
-  background-color: #3a3a3a !important;
-}
-
-/* ==========================================================================
-   GitHub Embeds - FIX TEXT COLORS
-   ========================================================================== */
-
-.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title,
-.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title a,
-.p2-dark-mode-enabled .wp-block-p2-embed-github__main a,
-.p2-dark-mode-enabled [class*="wp-block-p2-embed-github"] a {
-  color: #56a7d7 !important;
-}
-
-.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-description,
-.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-content,
-.p2-dark-mode-enabled [class*="wp-block-p2-embed-github"] span {
-  color: #c9c9c9 !important;
-}
-
-.p2-dark-mode-enabled .wp-block-p2-embed-github,
-.p2-dark-mode-enabled .wp-block-p2-embed-github__main,
-.p2-dark-mode-enabled .wp-block-p2-embed-github__right-container,
-.p2-dark-mode-enabled .wp-block-p2-embed-github__left-container {
-  background-color: #242424 !important;
-}
-
-/* ==========================================================================
-   Comment Editor / Input - FIX WHITE BG
-   ========================================================================== */
-
-.p2-dark-mode-enabled .o2-editor,
-.p2-dark-mode-enabled .o2-editor-wrapper,
-.p2-dark-mode-enabled .o2-editor-footer,
-.p2-dark-mode-enabled #respond,
-.p2-dark-mode-enabled .comment-new,
-.p2-dark-mode-enabled .comment-respond {
-  background-color: #242424 !important;
-  color: #c9c9c9 !important;
-}
-
-.p2-dark-mode-enabled .o2-editor .block-editor-block-list__layout,
-.p2-dark-mode-enabled .o2-editor [contenteditable],
-.p2-dark-mode-enabled .o2-editor .editor-styles-wrapper {
-  background-color: #242424 !important;
-  color: #c9c9c9 !important;
-}
-
-/* Editor placeholder text */
-.p2-dark-mode-enabled .o2-editor .block-editor-default-block-appender__content,
-.p2-dark-mode-enabled .o2-editor [data-empty="true"]::before {
-  color: #8c8c8c !important;
-}
-
-/* Editor toolbar */
-.p2-dark-mode-enabled .o2-editor .block-editor-block-toolbar,
-.p2-dark-mode-enabled .o2-editor .components-toolbar {
-  background-color: #2e2e2e !important;
-  border-color: #3a3a3a !important;
-}
-
-.p2-dark-mode-enabled .o2-editor button {
-  color: #c9c9c9 !important;
-}
-
-/* ==========================================================================
-   Comment Alternating Colors - NORMALIZE
-   ========================================================================== */
-
-/* All comments should have the same background */
-.p2-dark-mode-enabled .o2-post-comments > div,
-.p2-dark-mode-enabled .comment.depth-1,
-.p2-dark-mode-enabled .o2-comment.depth-1,
-.p2-dark-mode-enabled [class*="comment-"][class*="depth-1"] {
-  background-color: #242424 !important;
-}
-
-/* Thread-odd and thread-even should match */
-.p2-dark-mode-enabled .thread-odd,
-.p2-dark-mode-enabled .thread-even,
-.p2-dark-mode-enabled .thread-alt {
-  background-color: #242424 !important;
-}
-
-/* Nested replies slightly darker */
-.p2-dark-mode-enabled .depth-2,
-.p2-dark-mode-enabled .comment .comment {
-  background-color: #2a2a2a !important;
-}
-
-.p2-dark-mode-enabled .depth-3,
-.p2-dark-mode-enabled .comment .comment .comment {
-  background-color: #2e2e2e !important;
-}
-
-/* ==========================================================================
-   O2 Post Wrapper
-   ========================================================================== */
-
-.p2-dark-mode-enabled .o2-post,
-.p2-dark-mode-enabled .p2020-post,
-.p2-dark-mode-enabled div[class*="o2-post"] {
-  background-color: #1a1a1a !important;
-}
-
-/* ==========================================================================
-   Replies Header Area
-   ========================================================================== */
-
-.p2-dark-mode-enabled .o2-post-comments,
-.p2-dark-mode-enabled .o2-post-comment-controls {
-  background-color: #1a1a1a !important;
 }
