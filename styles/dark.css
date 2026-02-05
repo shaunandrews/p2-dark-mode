@@ -1,12 +1,399 @@
 /**
  * P2 Dark Mode Stylesheet
  * 
- * This file will contain all dark mode overrides for P2 sites.
- * Styles are wrapped in @media (prefers-color-scheme: dark) to
- * automatically activate based on system preference.
- * 
- * See docs/build-plan.md for the color palette.
- * See docs/p2-selectors.md for the selector reference (once created).
- * 
- * TODO: Populate with actual dark mode styles after selector research.
+ * Designed dark palette for comfortable night reading.
+ * Only applies when system is set to dark mode.
  */
+
+@media (prefers-color-scheme: dark) {
+
+  /* ==========================================================================
+     Color Palette (CSS Custom Properties)
+     ========================================================================== */
+  
+  :root {
+    --p2-bg-primary: #1a1a1a;
+    --p2-bg-secondary: #242424;
+    --p2-bg-tertiary: #2e2e2e;
+    --p2-text-primary: #e6e6e6;
+    --p2-text-secondary: #c9c9c9;
+    --p2-text-tertiary: #8c8c8c;
+    --p2-link: #56a7d7;
+    --p2-link-hover: #7abce6;
+    --p2-border: #3a3a3a;
+    --p2-blockquote-border: #5b7aed;
+    --p2-blockquote-bg: #1e2440;
+    --p2-code-bg: #2d2d2d;
+    --p2-mention-bg: #2c3e4a;
+  }
+
+  /* ==========================================================================
+     Global / Body Backgrounds
+     ========================================================================== */
+  
+  html,
+  body {
+    background-color: var(--p2-bg-primary);
+    color: var(--p2-text-secondary);
+  }
+
+  main,
+  #content,
+  .site-content {
+    background-color: var(--p2-bg-primary);
+  }
+
+  /* ==========================================================================
+     Sidebar
+     ========================================================================== */
+  
+  aside,
+  [role="complementary"] {
+    background-color: var(--p2-bg-secondary);
+    color: var(--p2-text-secondary);
+  }
+
+  aside h2,
+  aside h3,
+  aside h4 {
+    color: var(--p2-text-primary);
+  }
+
+  aside p,
+  aside li {
+    color: var(--p2-text-secondary);
+  }
+
+  /* Team list and recent activity */
+  .team-list,
+  .recent-activity {
+    background-color: var(--p2-bg-secondary);
+  }
+
+  /* Sidebar borders */
+  aside section,
+  aside div {
+    border-color: var(--p2-border);
+  }
+
+  /* ==========================================================================
+     Main Content Area
+     ========================================================================== */
+  
+  [role="main"] {
+    background-color: var(--p2-bg-primary);
+  }
+
+  /* Article / Post wrapper */
+  article {
+    background-color: var(--p2-bg-primary);
+    border-color: var(--p2-border);
+  }
+
+  /* Post headers */
+  article header {
+    background-color: transparent;
+  }
+
+  /* ==========================================================================
+     Typography - Headings
+     ========================================================================== */
+  
+  h1, h2, h3, h4, h5, h6,
+  article h1,
+  article h2,
+  article h3,
+  article h4,
+  .entry-title {
+    color: var(--p2-text-primary);
+  }
+
+  /* ==========================================================================
+     Typography - Body Text
+     ========================================================================== */
+  
+  p,
+  article p,
+  article ul,
+  article ol,
+  article li,
+  .entry-content,
+  .entry-content p,
+  .entry-content li {
+    color: var(--p2-text-secondary);
+  }
+
+  /* ==========================================================================
+     Typography - Meta & Timestamps
+     ========================================================================== */
+  
+  .entry-meta,
+  article time,
+  article a[href*="/author/"],
+  .comment-date,
+  small,
+  .meta,
+  .timestamp {
+    color: var(--p2-text-tertiary);
+  }
+
+  /* ==========================================================================
+     Links
+     ========================================================================== */
+  
+  a {
+    color: var(--p2-link);
+  }
+
+  a:hover,
+  a:focus {
+    color: var(--p2-link-hover);
+  }
+
+  a:visited {
+    color: var(--p2-link);
+  }
+
+  /* Mention links (@username) - highlighted background */
+  a[href*="/mentions/"] {
+    color: var(--p2-link);
+    background-color: var(--p2-mention-bg);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+  }
+
+  a[href*="/mentions/"]:hover {
+    color: var(--p2-link-hover);
+  }
+
+  /* P2 cross-links */
+  a[href*="wordpress.com"] {
+    color: var(--p2-link);
+  }
+
+  /* ==========================================================================
+     Comments
+     ========================================================================== */
+  
+  .comment,
+  .comment-body {
+    background-color: var(--p2-bg-primary);
+    color: var(--p2-text-secondary);
+    border-color: var(--p2-border);
+  }
+
+  .comment-author {
+    color: var(--p2-text-primary);
+  }
+
+  .comment-date {
+    color: var(--p2-text-tertiary);
+  }
+
+  /* Nested comments (replies) - slightly different background */
+  .comment .comment,
+  .comment-body .comment-body {
+    background-color: var(--p2-bg-secondary);
+  }
+
+  /* Deeper nesting */
+  .comment .comment .comment,
+  .comment-body .comment-body .comment-body {
+    background-color: var(--p2-bg-tertiary);
+  }
+
+  /* Reply link */
+  .comment-reply-link {
+    color: var(--p2-link);
+  }
+
+  .comment-reply-link:hover {
+    color: var(--p2-link-hover);
+  }
+
+  /* ==========================================================================
+     Blockquotes
+     ========================================================================== */
+  
+  blockquote {
+    background-color: var(--p2-blockquote-bg);
+    border-left-color: var(--p2-blockquote-border);
+    border-left-width: 4px;
+    border-left-style: solid;
+    color: var(--p2-text-secondary);
+  }
+
+  blockquote p {
+    color: var(--p2-text-secondary);
+  }
+
+  /* ==========================================================================
+     Code Blocks
+     ========================================================================== */
+  
+  code,
+  pre,
+  pre code {
+    background-color: var(--p2-code-bg);
+    color: var(--p2-text-secondary);
+    border-color: var(--p2-border);
+  }
+
+  /* Inline code */
+  p code,
+  li code {
+    background-color: var(--p2-code-bg);
+    color: var(--p2-text-secondary);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+  }
+
+  /* ==========================================================================
+     Forms & Inputs
+     ========================================================================== */
+  
+  input,
+  textarea,
+  select {
+    background-color: var(--p2-bg-tertiary);
+    color: var(--p2-text-primary);
+    border-color: var(--p2-border);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--p2-text-tertiary);
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    background-color: var(--p2-bg-secondary);
+    border-color: var(--p2-link);
+    outline-color: var(--p2-link);
+  }
+
+  /* Search */
+  input[type="search"],
+  .search-field {
+    background-color: var(--p2-bg-tertiary);
+    color: var(--p2-text-primary);
+    border-color: var(--p2-border);
+  }
+
+  /* Buttons */
+  button,
+  input[type="submit"],
+  input[type="button"] {
+    background-color: var(--p2-bg-tertiary);
+    color: var(--p2-text-primary);
+    border-color: var(--p2-border);
+  }
+
+  button:hover,
+  input[type="submit"]:hover,
+  input[type="button"]:hover {
+    background-color: var(--p2-bg-secondary);
+    color: var(--p2-text-primary);
+  }
+
+  /* ==========================================================================
+     Tooltips & Popovers
+     ========================================================================== */
+  
+  [role="tooltip"],
+  .tooltip {
+    background-color: var(--p2-bg-secondary);
+    color: var(--p2-text-primary);
+    border-color: var(--p2-border);
+  }
+
+  /* ==========================================================================
+     Borders & Dividers
+     ========================================================================== */
+  
+  hr {
+    border-color: var(--p2-border);
+    background-color: var(--p2-border);
+  }
+
+  /* Generic border overrides */
+  [style*="border"],
+  article,
+  .comment,
+  aside section {
+    border-color: var(--p2-border);
+  }
+
+  /* ==========================================================================
+     Tables
+     ========================================================================== */
+  
+  table {
+    background-color: var(--p2-bg-primary);
+    border-color: var(--p2-border);
+  }
+
+  th {
+    background-color: var(--p2-bg-secondary);
+    color: var(--p2-text-primary);
+    border-color: var(--p2-border);
+  }
+
+  td {
+    background-color: var(--p2-bg-primary);
+    color: var(--p2-text-secondary);
+    border-color: var(--p2-border);
+  }
+
+  tr:nth-child(even) td {
+    background-color: var(--p2-bg-secondary);
+  }
+
+  /* ==========================================================================
+     Protected Media Elements
+     These should NOT have color changes applied.
+     ========================================================================== */
+  
+  img,
+  video,
+  iframe,
+  canvas,
+  .avatar,
+  img.avatar,
+  .wp-embedded-content {
+    filter: none !important;
+  }
+
+  /* ==========================================================================
+     Scrollbars (Webkit browsers)
+     ========================================================================== */
+  
+  ::-webkit-scrollbar {
+    background-color: var(--p2-bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--p2-bg-tertiary);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--p2-text-tertiary);
+  }
+
+  /* ==========================================================================
+     Selection Highlight
+     ========================================================================== */
+  
+  ::selection {
+    background-color: var(--p2-mention-bg);
+    color: var(--p2-text-primary);
+  }
+
+  ::-moz-selection {
+    background-color: var(--p2-mention-bg);
+    color: var(--p2-text-primary);
+  }
+
+}
