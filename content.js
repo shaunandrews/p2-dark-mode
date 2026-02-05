@@ -9,6 +9,21 @@
 (function() {
   'use strict';
 
+  // IMMEDIATELY inject critical CSS to prevent white flash
+  // This runs before DOM is ready (document_start)
+  // Check both media query AND if we're on a wordpress.com domain (likely P2)
+  var isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var isWordPressDomain = window.location.hostname.endsWith('wordpress.com');
+  
+  // If on wordpress.com, inject critical dark CSS immediately
+  // (We'll remove it later if it's not actually a P2 site or not in dark mode)
+  if (isWordPressDomain) {
+    var style = document.createElement('style');
+    style.id = 'p2-dark-mode-critical';
+    style.textContent = 'html, body { background-color: #1a1a1a !important; color: #c9c9c9 !important; } * { background-color: inherit; }';
+    (document.head || document.documentElement).appendChild(style);
+  }
+
   /**
    * Check if the current page is a P2 site by looking for P2-specific markers.
    * 
@@ -69,6 +84,9 @@
    * Apply or remove dark mode class
    */
   function applyDarkMode(enable) {
+    // Remove critical CSS now that full styles are loading
+    var criticalStyle = document.getElementById('p2-dark-mode-critical');
+    
     if (enable) {
       document.documentElement.classList.add('p2-dark-mode-enabled');
       document.body.classList.add('p2-dark-mode-enabled');
@@ -76,6 +94,10 @@
     } else {
       document.documentElement.classList.remove('p2-dark-mode-enabled');
       document.body.classList.remove('p2-dark-mode-enabled');
+      // Remove critical CSS if dark mode not enabled
+      if (criticalStyle) {
+        criticalStyle.remove();
+      }
       console.log('P2 Dark Mode: Dark mode disabled (system in light mode)');
     }
   }
@@ -88,15 +110,21 @@
   function init() {
     if (!isP2Site()) {
       console.log('P2 Dark Mode: Not a P2 site, skipping');
+      // Remove critical CSS since this isn't a P2 site
+      var criticalStyle = document.getElementById('p2-dark-mode-critical');
+      if (criticalStyle) {
+        criticalStyle.remove();
+      }
       return;
     }
 
     console.log('P2 Dark Mode: P2 detected');
     
-    // Apply based on current preference
-    applyDarkMode(prefersDarkMode());
+    // For P2 sites, always enable dark mode (user installed extension for this)
+    // Don't rely on media query since it may not work in all browsers
+    applyDarkMode(true);
 
-    // Listen for system dark mode changes
+    // Listen for system dark mode changes (for future if user switches)
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
         applyDarkMode(e.matches);
