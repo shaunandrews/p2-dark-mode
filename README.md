@@ -1,6 +1,6 @@
 # P2 Dark Mode
 
-![P2 Dark Mode](assets/promo.jpg)
+![P2 Dark Mode](assets/2026-02-05-p2-dark-mode-promo.png)
 
 A Chrome extension that adds dark mode to WordPress P2 sites, respecting your system's dark mode preference.
 
