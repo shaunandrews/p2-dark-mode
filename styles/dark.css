@@ -323,6 +323,41 @@
   color: #c9c9c9 !important;
 }
 
+/* Feed modifier / Filter and Sort dropdown */
+.p2-dark-mode-enabled .p2-app-ctl__menu,
+.p2-dark-mode-enabled .p2020-feed-modifier,
+.p2-dark-mode-enabled .p2020-feed-modifier__filter-section,
+.p2-dark-mode-enabled .p2020-feed-modifier__sort-section,
+.p2-dark-mode-enabled .p2020-feed-modifier__action-section,
+.p2-dark-mode-enabled .p2020-feed-modifier__item-line {
+  background: #1a1a1a !important;
+  background-color: #1a1a1a !important;
+  color: #c9c9c9 !important;
+}
+
+/* Filter labels and text */
+.p2-dark-mode-enabled .p2020-feed-modifier label,
+.p2-dark-mode-enabled .p2020-feed-modifier legend,
+.p2-dark-mode-enabled .p2020-feed-modifier span,
+.p2-dark-mode-enabled .p2020-feed-modifier__item-line label,
+.p2-dark-mode-enabled .p2-app-ctl__menu label,
+.p2-dark-mode-enabled .p2-app-ctl__menu span {
+  color: #c9c9c9 !important;
+}
+
+/* Section headers (SORT BY, etc) */
+.p2-dark-mode-enabled .p2020-feed-modifier fieldset legend,
+.p2-dark-mode-enabled .p2020-feed-modifier__section-separator {
+  color: #8c8c8c !important;
+  border-color: #3a3a3a !important;
+}
+
+/* Apply button */
+.p2-dark-mode-enabled .p2020-feed-modifier button,
+.p2-dark-mode-enabled .p2-app-ctl__menu button {
+  color: #56a7d7 !important;
+}
+
 /* ==========================================================================
    SIDEBAR - P2020 theme
    ========================================================================== */
