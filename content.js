@@ -173,7 +173,7 @@
         <style>
           #p2-dark-mode-prompt {
             position: fixed;
-            top: 20px;
+            top: 100px;
             right: 20px;
             background: #1a1a1a;
             color: #e6e6e6;
