@@ -55,7 +55,15 @@ body.p2-dark-mode-enabled,
 .p2-dark-mode-enabled .hentry,
 .p2-dark-mode-enabled .o2-post,
 .p2-dark-mode-enabled .o2-posts,
-.p2-dark-mode-enabled #o2-wrapper {
+.p2-dark-mode-enabled #o2-wrapper,
+body.p2-dark-mode-enabled article.post.type-post.status-publish,
+html.p2-dark-mode-enabled body article,
+html body.p2-dark-mode-enabled article {
+  background-color: #1a1a1a !important;
+}
+
+/* NUCLEAR: Target ANY element with white background inside enabled body */
+body.p2-dark-mode-enabled article[class*="post"] {
   background-color: #1a1a1a !important;
 }
 
