@@ -46,9 +46,37 @@
   if (nonP2Subdomains.includes(hostname)) {
     return;
   }
+
+  // ============================================
+  // SCRIM OVERLAY — Show immediately on potential P2 sites
+  // ============================================
   
-  // No scrim — we'll apply styles only after confirming it's a P2
-  // This prevents any visual impact on non-P2 sites
+  const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  const scrim = document.createElement('div');
+  scrim.id = 'p2-dark-mode-scrim';
+  scrim.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
+    transition: opacity 100ms ease-out;
+    pointer-events: none;
+  `;
+  document.documentElement.appendChild(scrim);
+
+  /**
+   * Remove the scrim with fade
+   */
+  function removeScrim() {
+    const s = document.getElementById('p2-dark-mode-scrim');
+    if (!s) return;
+    s.style.opacity = '0';
+    setTimeout(() => s.remove(), 110);
+  }
 
   /**
    * Check if the current page is a P2 site
@@ -155,9 +183,10 @@
    * Initialize P2 Dark Mode
    */
   function init() {
-    // If not a P2 site, bail
+    // If not a P2 site, remove scrim and bail
     if (!isP2Site()) {
       console.log('P2 Dark Mode: Not a P2 site, skipping');
+      removeScrim();
       return;
     }
 
@@ -179,6 +208,8 @@
       });
     }
 
+    // Remove scrim after styles applied
+    requestAnimationFrame(() => requestAnimationFrame(() => removeScrim()));
   }
 
   // Run when DOM is ready
