@@ -87,16 +87,33 @@ You can remove any of these via the popup.
 
 ```
 p2-dark-mode/
-├── manifest.json      # Extension manifest (v3)
-├── content.js         # Main content script
-├── popup.html         # Popup UI
-├── popup.js           # Popup logic
-├── styles/
-│   └── dark.css       # Dark mode styles
-└── icons/
-    ├── icon-16.png
-    ├── icon-48.png
-    └── icon-128.png
+├── src/                   # Extension source
+│   ├── manifest.json      # Extension manifest (v3)
+│   ├── content.js         # Main content script
+│   ├── popup.html         # Popup UI
+│   ├── popup.js           # Popup logic
+│   ├── styles/
+│   │   └── dark.css       # Dark mode styles
+│   └── icons/
+│       ├── icon-16.png
+│       ├── icon-48.png
+│       └── icon-128.png
+├── build/                 # Packaged releases
+│   └── p2-dark-mode-v1.0.0.zip
+└── README.md
+```
+
+### Loading for development
+
+1. Go to `chrome://extensions`
+2. Enable **Developer mode**
+3. Click **Load unpacked**
+4. Select the `src/` folder
+
+### Building a release
+
+```bash
+cd src && zip -r ../build/p2-dark-mode-v1.0.0.zip . -x "*.DS_Store"
 ```
 
 ## License
