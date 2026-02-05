@@ -229,10 +229,15 @@
         location.reload();
       });
       
-      prompt.querySelector('.dismiss-btn').addEventListener('click', () => {
+      prompt.querySelector('.dismiss-btn').addEventListener('click', async () => {
+        // Add to deny list so we don't ask again
+        const result = await chrome.storage.sync.get(['denylist']);
+        const denylist = result.denylist || [];
+        if (!denylist.includes(hostname)) {
+          denylist.push(hostname);
+          await chrome.storage.sync.set({ denylist });
+        }
         prompt.remove();
-        // Remember dismissal for this session
-        sessionStorage.setItem('p2-dark-mode-dismissed', 'true');
       });
     }
     
@@ -257,14 +262,16 @@
     });
   } else {
     // Non-default site: check storage first
-    chrome.storage.sync.get(['allowlist'], (result) => {
+    chrome.storage.sync.get(['allowlist', 'denylist'], (result) => {
       const allowlist = result.allowlist || DEFAULT_SITES;
+      const denylist = result.denylist || [];
+      
       if (allowlist.includes(hostname)) {
         injectCSS();
         injectScrim();
         initP2Detection();
-      } else if (!sessionStorage.getItem('p2-dark-mode-dismissed')) {
-        // Not in allowlist - show prompt if it looks like a P2
+      } else if (!denylist.includes(hostname)) {
+        // Not in allowlist or denylist - show prompt if it looks like a P2
         showEnablePrompt();
       }
     });
