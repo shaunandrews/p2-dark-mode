@@ -1,17 +1,8 @@
 /**
  * P2 Dark Mode Stylesheet
  * 
- * Single dark background color everywhere. Simple.
- * Uses CSS media query for instant application (no flash).
+ * Only applies when .p2-dark-mode-enabled class is present.
  */
-
-/* Apply immediately via media query - no JS needed for initial paint */
-@media (prefers-color-scheme: dark) {
-  html, body {
-    background-color: #1a1a1a !important;
-    color: #c9c9c9 !important;
-  }
-}
 
 /* THE ONE BACKGROUND COLOR */
 .p2-dark-mode-enabled {
