@@ -63,7 +63,7 @@
     bottom: 0;
     z-index: 999999;
     background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
-    transition: opacity 100ms ease-out;
+    transition: opacity 180ms ease-out;
     pointer-events: none;
   `;
   document.documentElement.appendChild(scrim);
@@ -75,7 +75,7 @@
     const s = document.getElementById('p2-dark-mode-scrim');
     if (!s) return;
     s.style.opacity = '0';
-    setTimeout(() => s.remove(), 110);
+    setTimeout(() => s.remove(), 200);
   }
 
   /**
