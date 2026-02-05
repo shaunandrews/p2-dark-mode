@@ -152,6 +152,21 @@
   }
 
   /**
+   * Inject the dark mode CSS stylesheet
+   */
+  function injectStylesheet() {
+    if (document.getElementById('p2-dark-mode-css')) return; // Already injected
+    
+    const link = document.createElement('link');
+    link.id = 'p2-dark-mode-css';
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = chrome.runtime.getURL('styles/dark.css');
+    document.head.appendChild(link);
+    console.log('P2 Dark Mode: Stylesheet injected');
+  }
+
+  /**
    * Initialize P2 Dark Mode
    */
   function init() {
@@ -163,6 +178,9 @@
     }
 
     console.log('P2 Dark Mode: P2 detected');
+    
+    // Inject CSS only for P2 sites
+    injectStylesheet();
     
     // Apply dark mode based on system preference
     applyDarkMode(prefersDarkMode());
