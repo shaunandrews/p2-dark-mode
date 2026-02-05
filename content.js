@@ -2,41 +2,65 @@
  * P2 Dark Mode — Content Script
  * 
  * Detects if the current page is a P2 site and enables dark mode styles.
- * The CSS is injected via manifest, but this script handles P2 detection
- * and can add a body class for more targeted styling.
+ * Uses a scrim overlay to prevent white flash during load.
  */
 
 (function() {
   'use strict';
 
-  // Critical CSS is now in the stylesheet via @media query
-  // No need for JS injection - CSS loads before page renders
+  // ============================================
+  // SCRIM OVERLAY — Inject immediately at document_start
+  // ============================================
+  
+  const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  // Create scrim immediately — before anything else renders
+  const scrim = document.createElement('div');
+  scrim.id = 'p2-dark-mode-scrim';
+  scrim.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
+    transition: opacity 150ms ease-out;
+    pointer-events: none;
+  `;
+  
+  // Append to documentElement (html) — exists at document_start, body doesn't
+  document.documentElement.appendChild(scrim);
 
   /**
-   * Check if the current page is a P2 site by looking for P2-specific markers.
-   * 
-   * P2 themes have distinctive elements:
-   * - body.flavor-flavor-flavor class (P2 flavor theme marker)
-   * - .p2-header element
-   * - #p2-site-header or similar P2 nav elements
-   * - .p2020-* class patterns (P2 2020 theme)
-   * 
-   * @returns {boolean} True if this appears to be a P2 site
+   * Fade out and remove the scrim
+   */
+  function removeScrim() {
+    const scrim = document.getElementById('p2-dark-mode-scrim');
+    if (!scrim) return;
+    
+    scrim.style.opacity = '0';
+    
+    // Remove from DOM after transition completes
+    setTimeout(function() {
+      if (scrim.parentNode) {
+        scrim.parentNode.removeChild(scrim);
+      }
+    }, 160); // Slightly longer than transition to ensure completion
+  }
+
+  /**
+   * Check if the current page is a P2 site
    */
   function isP2Site() {
-    // Check body classes for P2 flavor markers
     const body = document.body;
     if (!body) return false;
 
     const bodyClasses = body.className;
     
-    // P2 flavor theme marker
-    if (bodyClasses.includes('flavor-flavor-flavor')) {
-      return true;
-    }
-
-    // P2 2020 theme markers
-    if (bodyClasses.includes('flavor-flavor') || bodyClasses.includes('flavor-flavor-flavor')) {
+    // P2 flavor theme markers
+    if (bodyClasses.includes('flavor-flavor-flavor') || 
+        bodyClasses.includes('flavor-flavor')) {
       return true;
     }
 
@@ -45,9 +69,7 @@
       '.p2-header',
       '#p2-site-header',
       '.p2020-site-header',
-      '.p2-sidebar',
-      '[class*="p2020-"]',
-      '.o2-app',           // O2 is the P2 engine
+      '.o2-app',
       '.o2-posts',
       '#o2-wrapper'
     ];
@@ -75,69 +97,25 @@
     if (enable) {
       document.documentElement.classList.add('p2-dark-mode-enabled');
       document.body.classList.add('p2-dark-mode-enabled');
-      console.log('P2 Dark Mode: Dark mode enabled');
+      console.log('P2 Dark Mode: Enabled');
     } else {
       document.documentElement.classList.remove('p2-dark-mode-enabled');
       document.body.classList.remove('p2-dark-mode-enabled');
-      console.log('P2 Dark Mode: Dark mode disabled (system in light mode)');
+      console.log('P2 Dark Mode: Disabled (system in light mode)');
     }
   }
-
-  /**
-   * Initialize P2 Dark Mode.
-   * Adds a class to the body so CSS can target P2 pages specifically.
-   * Respects system dark mode setting.
-   */
-  function init() {
-    if (!isP2Site()) {
-      console.log('P2 Dark Mode: Not a P2 site, skipping');
-      return;
-    }
-
-    console.log('P2 Dark Mode: P2 detected');
-    
-    // Respect system dark mode preference
-    applyDarkMode(prefersDarkMode());
-
-    // Listen for system dark mode changes
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        applyDarkMode(e.matches);
-      });
-    }
-  }
-
-  // Run detection when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    // DOM already loaded (shouldn't happen with run_at: document_start, but be safe)
-    init();
-  }
-
-  // Also re-check after a short delay for SPAs that load content dynamically
-  setTimeout(function() {
-    if (!document.body.classList.contains('p2-dark-mode-enabled') && isP2Site()) {
-      console.log('P2 Dark Mode: P2 detected on delayed check, applying styles');
-      applyDarkMode(prefersDarkMode());
-    }
-    
-    // Force fix any stubborn white backgrounds
-    if (document.body.classList.contains('p2-dark-mode-enabled')) {
-      forceFixBackgrounds();
-    }
-  }, 1000);
 
   /**
    * Nuclear option: force EVERYTHING to dark bg
    */
   function forceFixBackgrounds() {
+    if (!prefersDarkMode()) return;
+    
     const darkBg = '#1a1a1a';
     
     // Find ALL elements with white-ish backgrounds and fix them
     document.querySelectorAll('*').forEach(function(el) {
       const bg = getComputedStyle(el).backgroundColor;
-      // Match white, near-white, and light grays
       if (bg === 'rgb(255, 255, 255)' || 
           bg === 'white' || 
           bg === 'rgb(243, 243, 243)' ||
@@ -154,19 +132,60 @@
       el.style.setProperty('background', darkBg, 'important');
     });
     
-    // Target has-background class
-    document.querySelectorAll('.has-background').forEach(function(el) {
-      el.style.setProperty('background-color', darkBg, 'important');
-    });
-    
-    // Target editor components
-    document.querySelectorAll('[class*="editor-"], [class*="interface-"], [class*="block-editor-"]').forEach(function(el) {
-      const bg = getComputedStyle(el).backgroundColor;
-      if (bg === 'rgb(255, 255, 255)' || bg === 'white') {
-        el.style.setProperty('background-color', darkBg, 'important');
-      }
-    });
-    
-    console.log('P2 Dark Mode: Force-fixed all backgrounds');
+    console.log('P2 Dark Mode: Force-fixed backgrounds');
   }
+
+  /**
+   * Initialize P2 Dark Mode
+   */
+  function init() {
+    // If not a P2 site, remove scrim and bail
+    if (!isP2Site()) {
+      console.log('P2 Dark Mode: Not a P2 site, skipping');
+      removeScrim();
+      return;
+    }
+
+    console.log('P2 Dark Mode: P2 detected');
+    
+    // Apply dark mode based on system preference
+    applyDarkMode(prefersDarkMode());
+
+    // Listen for system dark mode changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        applyDarkMode(e.matches);
+        if (e.matches) {
+          forceFixBackgrounds();
+        }
+      });
+    }
+
+    // Give styles a moment to apply, then remove scrim
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        // Double rAF ensures styles are painted
+        removeScrim();
+      });
+    });
+  }
+
+  // Run when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Delayed check for SPAs and force-fix stubborn backgrounds
+  setTimeout(function() {
+    if (document.body && !document.body.classList.contains('p2-dark-mode-enabled') && isP2Site()) {
+      console.log('P2 Dark Mode: Delayed P2 detection, applying styles');
+      applyDarkMode(prefersDarkMode());
+    }
+    
+    if (document.body && document.body.classList.contains('p2-dark-mode-enabled')) {
+      forceFixBackgrounds();
+    }
+  }, 1000);
 })();
