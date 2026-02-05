@@ -182,7 +182,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 14px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            z-index: 999999;
+            z-index: 2147483647;
             display: flex;
             align-items: center;
             gap: 12px;
