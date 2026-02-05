@@ -9,32 +9,20 @@
   'use strict';
 
   // ============================================
-  // SUBDOMAIN CHECK — Only run on P2 subdomains, not wordpress.com itself
+  // ALLOWLIST — Only run on approved P2 sites
   // ============================================
   
   const hostname = window.location.hostname;
   
-  // Bail if we're on wordpress.com itself (not a subdomain)
-  if (hostname === 'wordpress.com' || hostname === 'www.wordpress.com') {
-    return;
-  }
-  
-  // Also bail if not a wordpress.com subdomain at all
-  if (!hostname.endsWith('.wordpress.com')) {
-    return;
-  }
-  
-  // Blocklist of known non-P2 wordpress.com subdomains
-  const nonP2Subdomains = [
-    'my.wordpress.com',
-    'public-api.wordpress.com',
-    'developer.wordpress.com',
-    'learn.wordpress.com',
-    'make.wordpress.com',
-    'subscribe.wordpress.com',
+  const allowedP2Sites = [
+    'designomattic.wordpress.com',
+    'aip2.wordpress.com',
+    'growthp2.wordpress.com',
+    'learningp2.wordpress.com',
+    'dotcomdesignp2.wordpress.com',
   ];
   
-  if (nonP2Subdomains.includes(hostname)) {
+  if (!allowedP2Sites.includes(hostname)) {
     return;
   }
 
