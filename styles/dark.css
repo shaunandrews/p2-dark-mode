@@ -2,438 +2,382 @@
  * P2 Dark Mode Stylesheet
  * 
  * Designed dark palette for comfortable night reading.
- * Only applies when system is set to dark mode.
+ * Triggered by .p2-dark-mode-enabled class added by content script.
  * 
  * Uses !important to override P2 theme specificity.
  */
 
-@media (prefers-color-scheme: dark) {
+/* ==========================================================================
+   Color Palette (CSS Custom Properties)
+   ========================================================================== */
 
-  /* ==========================================================================
-     Color Palette (CSS Custom Properties)
-     ========================================================================== */
-  
-  :root {
-    --p2-bg-primary: #1a1a1a;
-    --p2-bg-secondary: #242424;
-    --p2-bg-tertiary: #2e2e2e;
-    --p2-text-primary: #e6e6e6;
-    --p2-text-secondary: #c9c9c9;
-    --p2-text-tertiary: #8c8c8c;
-    --p2-link: #56a7d7;
-    --p2-link-hover: #7abce6;
-    --p2-border: #3a3a3a;
-    --p2-blockquote-border: #5b7aed;
-    --p2-blockquote-bg: #1e2440;
-    --p2-code-bg: #2d2d2d;
-    --p2-mention-bg: #2c3e4a;
-  }
+.p2-dark-mode-enabled {
+  --p2-bg-primary: #1a1a1a;
+  --p2-bg-secondary: #242424;
+  --p2-bg-tertiary: #2e2e2e;
+  --p2-text-primary: #e6e6e6;
+  --p2-text-secondary: #c9c9c9;
+  --p2-text-tertiary: #8c8c8c;
+  --p2-link: #56a7d7;
+  --p2-link-hover: #7abce6;
+  --p2-border: #3a3a3a;
+  --p2-blockquote-border: #5b7aed;
+  --p2-blockquote-bg: #1e2440;
+  --p2-code-bg: #2d2d2d;
+  --p2-mention-bg: #2c3e4a;
+}
 
-  /* ==========================================================================
-     P2-Specific Global Overrides (high specificity + !important)
-     ========================================================================== */
-  
-  /* Body - target P2 specific classes */
-  body,
-  body.o2,
-  body.a8c-p2,
-  body.wp-theme-pubp2020,
-  body.jps-theme-pub\/p2020 {
-    background-color: #1a1a1a !important;
-    color: #c9c9c9 !important;
-  }
+/* ==========================================================================
+   P2-Specific Global Overrides
+   ========================================================================== */
 
-  /* Main content area */
-  main,
-  main#content,
-  #content,
-  .site-content,
-  .o2-app {
-    background-color: #1a1a1a !important;
-  }
+/* Body backgrounds */
+body.p2-dark-mode-enabled,
+.p2-dark-mode-enabled {
+  background-color: #1a1a1a !important;
+  color: #c9c9c9 !important;
+}
 
-  /* Article / Post */
-  article,
-  article.post,
-  .post,
-  .type-post,
-  .hentry {
-    background-color: #1a1a1a !important;
-  }
+/* Main content area */
+.p2-dark-mode-enabled main,
+.p2-dark-mode-enabled main#content,
+.p2-dark-mode-enabled #content,
+.p2-dark-mode-enabled .site-content,
+.p2-dark-mode-enabled .o2-app {
+  background-color: #1a1a1a !important;
+}
 
-  /* P2 post content wrapper */
-  .o2-post,
-  .o2-posts,
-  #o2-wrapper {
-    background-color: #1a1a1a !important;
-  }
+/* Article / Post - THE KEY FIX */
+.p2-dark-mode-enabled article,
+.p2-dark-mode-enabled article.post,
+.p2-dark-mode-enabled .post,
+.p2-dark-mode-enabled .type-post,
+.p2-dark-mode-enabled .hentry,
+.p2-dark-mode-enabled .o2-post,
+.p2-dark-mode-enabled .o2-posts,
+.p2-dark-mode-enabled #o2-wrapper {
+  background-color: #1a1a1a !important;
+}
 
-  /* ==========================================================================
-     P2 Sidebar
-     ========================================================================== */
-  
-  /* Sidebar wrapper */
-  .p2020-sidebar,
-  .o2-sidebar,
-  aside,
-  [role="complementary"] {
-    background-color: #242424 !important;
-    color: #c9c9c9 !important;
-  }
+/* Post content inner wrappers */
+.p2-dark-mode-enabled article > div,
+.p2-dark-mode-enabled article > div > div,
+.p2-dark-mode-enabled .entry-content,
+.p2-dark-mode-enabled .o2-post-content {
+  background-color: #1a1a1a !important;
+}
 
-  /* Sidebar header area */
-  .p2020-sidebar-site-title,
-  .p2020-sidebar-site-description {
-    color: #e6e6e6 !important;
-  }
+/* ==========================================================================
+   P2 Sidebar
+   ========================================================================== */
 
-  /* Widget areas */
-  .widget,
-  .widget_text {
-    background-color: transparent !important;
-    color: #c9c9c9 !important;
-  }
+.p2-dark-mode-enabled .p2020-sidebar,
+.p2-dark-mode-enabled .o2-sidebar,
+.p2-dark-mode-enabled aside,
+.p2-dark-mode-enabled [role="complementary"] {
+  background-color: #242424 !important;
+  color: #c9c9c9 !important;
+}
 
-  .widget h2,
-  .widget h3,
-  .widget h4,
-  .widget-title {
-    color: #e6e6e6 !important;
-  }
+.p2-dark-mode-enabled .p2020-sidebar-site-title,
+.p2-dark-mode-enabled .p2020-sidebar-site-description {
+  color: #e6e6e6 !important;
+}
 
-  /* ==========================================================================
-     Typography - Headings
-     ========================================================================== */
-  
-  h1, h2, h3, h4, h5, h6,
-  .entry-title,
-  .entry-title a,
-  article h1,
-  article h2,
-  article h3 {
-    color: #e6e6e6 !important;
-  }
+.p2-dark-mode-enabled .widget,
+.p2-dark-mode-enabled .widget_text {
+  background-color: transparent !important;
+  color: #c9c9c9 !important;
+}
 
-  /* ==========================================================================
-     Typography - Body Text
-     ========================================================================== */
-  
-  p,
-  li,
-  .entry-content,
-  .entry-content p,
-  .entry-content li,
-  .o2-post-content,
-  .o2-post-content p {
-    color: #c9c9c9 !important;
-  }
+.p2-dark-mode-enabled .widget h2,
+.p2-dark-mode-enabled .widget h3,
+.p2-dark-mode-enabled .widget h4,
+.p2-dark-mode-enabled .widget-title {
+  color: #e6e6e6 !important;
+}
 
-  /* ==========================================================================
-     Typography - Meta & Timestamps
-     ========================================================================== */
-  
-  .entry-meta,
-  .entry-meta a,
-  time,
-  .comment-date,
-  .o2-timestamp,
-  .o2-post-meta,
-  small {
-    color: #8c8c8c !important;
-  }
+/* ==========================================================================
+   Typography - Headings
+   ========================================================================== */
 
-  /* ==========================================================================
-     Links
-     ========================================================================== */
-  
-  a {
-    color: #56a7d7 !important;
-  }
+.p2-dark-mode-enabled h1,
+.p2-dark-mode-enabled h2,
+.p2-dark-mode-enabled h3,
+.p2-dark-mode-enabled h4,
+.p2-dark-mode-enabled h5,
+.p2-dark-mode-enabled h6,
+.p2-dark-mode-enabled .entry-title,
+.p2-dark-mode-enabled .entry-title a {
+  color: #e6e6e6 !important;
+}
 
-  a:hover,
-  a:focus {
-    color: #7abce6 !important;
-  }
+/* ==========================================================================
+   Typography - Body Text
+   ========================================================================== */
 
-  /* Keep entry title links lighter */
-  .entry-title a {
-    color: #e6e6e6 !important;
-  }
+.p2-dark-mode-enabled p,
+.p2-dark-mode-enabled li,
+.p2-dark-mode-enabled .entry-content,
+.p2-dark-mode-enabled .entry-content p,
+.p2-dark-mode-enabled .entry-content li,
+.p2-dark-mode-enabled .o2-post-content,
+.p2-dark-mode-enabled .o2-post-content p {
+  color: #c9c9c9 !important;
+}
 
-  .entry-title a:hover {
-    color: #56a7d7 !important;
-  }
+/* ==========================================================================
+   Typography - Meta & Timestamps
+   ========================================================================== */
 
-  /* Mention links (@username) */
-  a[href*="/mentions/"],
-  .o2-mention {
-    color: #56a7d7 !important;
-    background-color: #2c3e4a !important;
-    padding: 0.1em 0.3em;
-    border-radius: 3px;
-  }
+.p2-dark-mode-enabled .entry-meta,
+.p2-dark-mode-enabled .entry-meta a,
+.p2-dark-mode-enabled time,
+.p2-dark-mode-enabled .comment-date,
+.p2-dark-mode-enabled .o2-timestamp,
+.p2-dark-mode-enabled .o2-post-meta,
+.p2-dark-mode-enabled small {
+  color: #8c8c8c !important;
+}
 
-  /* P2 cross-links (+p2name) */
-  a[href*="wordpress.com"] {
-    color: #56a7d7 !important;
-  }
+/* ==========================================================================
+   Links
+   ========================================================================== */
 
-  /* ==========================================================================
-     Comments - P2 O2 System
-     ========================================================================== */
-  
-  .comment,
-  .o2-comment,
-  .comment-body,
-  .o2-comment-content {
-    background-color: #242424 !important;
-    color: #c9c9c9 !important;
-    border-color: #3a3a3a !important;
-  }
+.p2-dark-mode-enabled a {
+  color: #56a7d7 !important;
+}
 
-  .comment-author,
-  .o2-comment-author,
-  .comment-author a {
-    color: #e6e6e6 !important;
-  }
+.p2-dark-mode-enabled a:hover,
+.p2-dark-mode-enabled a:focus {
+  color: #7abce6 !important;
+}
 
-  .comment-date,
-  .o2-comment-date {
-    color: #8c8c8c !important;
-  }
+.p2-dark-mode-enabled .entry-title a {
+  color: #e6e6e6 !important;
+}
 
-  /* Nested comments */
-  .comment .comment,
-  .o2-comment .o2-comment {
-    background-color: #2e2e2e !important;
-  }
+.p2-dark-mode-enabled .entry-title a:hover {
+  color: #56a7d7 !important;
+}
 
-  /* Reply/action links */
-  .comment-reply-link,
-  .o2-post-reply,
-  .o2-reply {
-    color: #56a7d7 !important;
-    background-color: transparent !important;
-  }
+/* Mention links (@username) */
+.p2-dark-mode-enabled a[href*="/mentions/"],
+.p2-dark-mode-enabled .o2-mention {
+  color: #56a7d7 !important;
+  background-color: #2c3e4a !important;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
 
-  /* Comments count header */
-  .comments-count,
-  #comments-count {
-    color: #e6e6e6 !important;
-  }
+/* ==========================================================================
+   Comments - P2 O2 System
+   ========================================================================== */
 
-  /* ==========================================================================
-     AI Summary Box (P2 specific)
-     ========================================================================== */
-  
-  .ai-summary,
-  [class*="ai-summary"],
-  .wp-block-p2-ai-summary {
-    background-color: #242424 !important;
-    border-color: #3a3a3a !important;
-    color: #c9c9c9 !important;
-  }
+.p2-dark-mode-enabled .comment,
+.p2-dark-mode-enabled .o2-comment,
+.p2-dark-mode-enabled .comment-body,
+.p2-dark-mode-enabled .o2-comment-content {
+  background-color: #242424 !important;
+  color: #c9c9c9 !important;
+  border-color: #3a3a3a !important;
+}
 
-  /* ==========================================================================
-     Blockquotes
-     ========================================================================== */
-  
-  blockquote {
-    background-color: #1e2440 !important;
-    border-left-color: #5b7aed !important;
-    border-left-width: 4px;
-    border-left-style: solid;
-    color: #c9c9c9 !important;
-  }
+.p2-dark-mode-enabled .comment-author,
+.p2-dark-mode-enabled .o2-comment-author,
+.p2-dark-mode-enabled .comment-author a {
+  color: #e6e6e6 !important;
+}
 
-  blockquote p {
-    color: #c9c9c9 !important;
-  }
+.p2-dark-mode-enabled .comment .comment,
+.p2-dark-mode-enabled .o2-comment .o2-comment {
+  background-color: #2e2e2e !important;
+}
 
-  /* ==========================================================================
-     Code Blocks
-     ========================================================================== */
-  
-  code,
-  pre,
-  pre code,
-  .wp-block-code {
-    background-color: #2d2d2d !important;
-    color: #c9c9c9 !important;
-    border-color: #3a3a3a !important;
-  }
+.p2-dark-mode-enabled .comment-reply-link,
+.p2-dark-mode-enabled .o2-post-reply,
+.p2-dark-mode-enabled .o2-reply {
+  color: #56a7d7 !important;
+  background-color: transparent !important;
+}
 
-  /* Inline code */
-  p code,
-  li code {
-    background-color: #2d2d2d !important;
-    color: #c9c9c9 !important;
-    padding: 0.15em 0.4em;
-    border-radius: 3px;
-  }
+.p2-dark-mode-enabled .comments-count,
+.p2-dark-mode-enabled #comments-count {
+  color: #e6e6e6 !important;
+}
 
-  /* ==========================================================================
-     Forms & Inputs
-     ========================================================================== */
-  
-  input,
-  textarea,
-  select {
-    background-color: #2e2e2e !important;
-    color: #e6e6e6 !important;
-    border-color: #3a3a3a !important;
-  }
+/* ==========================================================================
+   AI Summary Box
+   ========================================================================== */
 
-  input::placeholder,
-  textarea::placeholder {
-    color: #8c8c8c !important;
-  }
+.p2-dark-mode-enabled .ai-summary,
+.p2-dark-mode-enabled [class*="ai-summary"],
+.p2-dark-mode-enabled .wp-block-p2-ai-summary,
+.p2-dark-mode-enabled [class*="AiSummary"],
+.p2-dark-mode-enabled [class*="aisummary"] {
+  background-color: #242424 !important;
+  border-color: #3a3a3a !important;
+  color: #c9c9c9 !important;
+}
 
-  /* Buttons */
-  button,
-  input[type="submit"],
-  input[type="button"],
-  .button {
-    background-color: #2e2e2e !important;
-    color: #e6e6e6 !important;
-    border-color: #3a3a3a !important;
-  }
+/* Target the AI summary wrapper div */
+.p2-dark-mode-enabled article > div > div:first-child {
+  background-color: #1a1a1a !important;
+}
 
-  button:hover,
-  .button:hover {
-    background-color: #3a3a3a !important;
-  }
+/* ==========================================================================
+   Blockquotes
+   ========================================================================== */
 
-  /* ==========================================================================
-     GitHub Embeds (P2 specific)
-     ========================================================================== */
-  
-  .wp-block-p2-embed-github,
-  [class*="wp-block-p2-embed"] {
-    background-color: #242424 !important;
-    border-color: #3a3a3a !important;
-  }
+.p2-dark-mode-enabled blockquote {
+  background-color: #1e2440 !important;
+  border-left-color: #5b7aed !important;
+  border-left-width: 4px;
+  border-left-style: solid;
+  color: #c9c9c9 !important;
+}
 
-  .wp-block-p2-embed-github__type-badge {
-    background-color: #2e2e2e !important;
-    color: #c9c9c9 !important;
-  }
+.p2-dark-mode-enabled blockquote p {
+  color: #c9c9c9 !important;
+}
 
-  /* ==========================================================================
-     Tooltips & Popovers
-     ========================================================================== */
-  
-  [role="tooltip"],
-  .tooltip,
-  .o2-tooltip {
-    background-color: #242424 !important;
-    color: #e6e6e6 !important;
-    border-color: #3a3a3a !important;
-  }
+/* ==========================================================================
+   Code Blocks
+   ========================================================================== */
 
-  /* ==========================================================================
-     Borders & Dividers
-     ========================================================================== */
-  
-  hr {
-    border-color: #3a3a3a !important;
-    background-color: #3a3a3a !important;
-  }
+.p2-dark-mode-enabled code,
+.p2-dark-mode-enabled pre,
+.p2-dark-mode-enabled pre code,
+.p2-dark-mode-enabled .wp-block-code {
+  background-color: #2d2d2d !important;
+  color: #c9c9c9 !important;
+  border-color: #3a3a3a !important;
+}
 
-  /* ==========================================================================
-     Thread Links / Related Posts
-     ========================================================================== */
-  
-  .o2-post-threads,
-  .o2-thread-item {
-    background-color: transparent !important;
-    border-color: #3a3a3a !important;
-  }
+.p2-dark-mode-enabled p code,
+.p2-dark-mode-enabled li code {
+  background-color: #2d2d2d !important;
+  color: #c9c9c9 !important;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
 
-  /* ==========================================================================
-     Action Bars / Post Footer
-     ========================================================================== */
-  
-  .o2-actions,
-  .o2-post-actions,
-  .entry-actions {
-    background-color: transparent !important;
-  }
+/* ==========================================================================
+   Forms & Inputs
+   ========================================================================== */
 
-  .o2-actions a,
-  .o2-post-actions a {
-    color: #8c8c8c !important;
-  }
+.p2-dark-mode-enabled input,
+.p2-dark-mode-enabled textarea,
+.p2-dark-mode-enabled select {
+  background-color: #2e2e2e !important;
+  color: #e6e6e6 !important;
+  border-color: #3a3a3a !important;
+}
 
-  .o2-actions a:hover {
-    color: #56a7d7 !important;
-  }
+.p2-dark-mode-enabled input::placeholder,
+.p2-dark-mode-enabled textarea::placeholder {
+  color: #8c8c8c !important;
+}
 
-  /* ==========================================================================
-     Likes / Stars
-     ========================================================================== */
+.p2-dark-mode-enabled button,
+.p2-dark-mode-enabled input[type="submit"],
+.p2-dark-mode-enabled input[type="button"],
+.p2-dark-mode-enabled .button {
+  background-color: #2e2e2e !important;
+  color: #e6e6e6 !important;
+  border-color: #3a3a3a !important;
+}
 
-  .o2-likes,
-  .likes,
-  [class*="like"] span {
-    color: #8c8c8c !important;
-  }
+.p2-dark-mode-enabled button:hover,
+.p2-dark-mode-enabled .button:hover {
+  background-color: #3a3a3a !important;
+}
 
-  /* ==========================================================================
-     Lists (ensure visibility)
-     ========================================================================== */
-  
-  ul, ol {
-    color: #c9c9c9 !important;
-  }
+/* ==========================================================================
+   GitHub Embeds
+   ========================================================================== */
 
-  li {
-    background-color: transparent !important;
-  }
+.p2-dark-mode-enabled .wp-block-p2-embed-github,
+.p2-dark-mode-enabled [class*="wp-block-p2-embed"] {
+  background-color: #242424 !important;
+  border-color: #3a3a3a !important;
+}
 
-  /* ==========================================================================
-     Protected Media Elements
-     ========================================================================== */
-  
-  img,
-  video,
-  iframe,
-  canvas,
-  .avatar,
-  img.avatar,
-  .wp-embedded-content {
-    filter: none !important;
-  }
+.p2-dark-mode-enabled .wp-block-p2-embed-github__type-badge {
+  background-color: #2e2e2e !important;
+  color: #c9c9c9 !important;
+}
 
-  /* ==========================================================================
-     Scrollbars (Webkit browsers)
-     ========================================================================== */
-  
-  ::-webkit-scrollbar {
-    background-color: #242424;
-  }
+/* ==========================================================================
+   Tooltips & Popovers
+   ========================================================================== */
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #3a3a3a;
-    border-radius: 4px;
-  }
+.p2-dark-mode-enabled [role="tooltip"],
+.p2-dark-mode-enabled .tooltip,
+.p2-dark-mode-enabled .o2-tooltip {
+  background-color: #242424 !important;
+  color: #e6e6e6 !important;
+  border-color: #3a3a3a !important;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #8c8c8c;
-  }
+/* ==========================================================================
+   Borders & Dividers
+   ========================================================================== */
 
-  /* ==========================================================================
-     Selection Highlight
-     ========================================================================== */
-  
-  ::selection {
-    background-color: #2c3e4a !important;
-    color: #e6e6e6 !important;
-  }
+.p2-dark-mode-enabled hr {
+  border-color: #3a3a3a !important;
+  background-color: #3a3a3a !important;
+}
 
-  ::-moz-selection {
-    background-color: #2c3e4a !important;
-    color: #e6e6e6 !important;
-  }
+/* ==========================================================================
+   Lists
+   ========================================================================== */
 
+.p2-dark-mode-enabled ul,
+.p2-dark-mode-enabled ol {
+  color: #c9c9c9 !important;
+}
+
+.p2-dark-mode-enabled li {
+  background-color: transparent !important;
+}
+
+/* ==========================================================================
+   Protected Media Elements
+   ========================================================================== */
+
+.p2-dark-mode-enabled img,
+.p2-dark-mode-enabled video,
+.p2-dark-mode-enabled iframe,
+.p2-dark-mode-enabled canvas,
+.p2-dark-mode-enabled .avatar,
+.p2-dark-mode-enabled img.avatar {
+  filter: none !important;
+}
+
+/* ==========================================================================
+   Scrollbars (Webkit)
+   ========================================================================== */
+
+.p2-dark-mode-enabled ::-webkit-scrollbar {
+  background-color: #242424;
+}
+
+.p2-dark-mode-enabled ::-webkit-scrollbar-thumb {
+  background-color: #3a3a3a;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Selection Highlight
+   ========================================================================== */
+
+.p2-dark-mode-enabled ::selection {
+  background-color: #2c3e4a !important;
+  color: #e6e6e6 !important;
+}
+
+.p2-dark-mode-enabled ::-moz-selection {
+  background-color: #2c3e4a !important;
+  color: #e6e6e6 !important;
 }

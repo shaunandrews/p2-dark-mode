@@ -59,16 +59,48 @@
   }
 
   /**
-   * Initialize P2 Dark Mode.
-   * Adds a class to the body so CSS can target P2 pages specifically.
+   * Check if system prefers dark mode
    */
-  function init() {
-    if (isP2Site()) {
-      console.log('P2 Dark Mode: P2 detected, applying styles');
+  function prefersDarkMode() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  /**
+   * Apply or remove dark mode class
+   */
+  function applyDarkMode(enable) {
+    if (enable) {
       document.documentElement.classList.add('p2-dark-mode-enabled');
       document.body.classList.add('p2-dark-mode-enabled');
+      console.log('P2 Dark Mode: Dark mode enabled');
     } else {
+      document.documentElement.classList.remove('p2-dark-mode-enabled');
+      document.body.classList.remove('p2-dark-mode-enabled');
+      console.log('P2 Dark Mode: Dark mode disabled (system in light mode)');
+    }
+  }
+
+  /**
+   * Initialize P2 Dark Mode.
+   * Adds a class to the body so CSS can target P2 pages specifically.
+   * Only applies when system is in dark mode.
+   */
+  function init() {
+    if (!isP2Site()) {
       console.log('P2 Dark Mode: Not a P2 site, skipping');
+      return;
+    }
+
+    console.log('P2 Dark Mode: P2 detected');
+    
+    // Apply based on current preference
+    applyDarkMode(prefersDarkMode());
+
+    // Listen for system dark mode changes
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        applyDarkMode(e.matches);
+      });
     }
   }
 
