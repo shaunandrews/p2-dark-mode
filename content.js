@@ -130,6 +130,7 @@
    */
   function forceFixBackgrounds() {
     const darkBg = '#1a1a1a';
+    const darkBgSecondary = '#242424';
     const selectors = [
       'article',
       'article.post',
@@ -137,17 +138,46 @@
       '.type-post',
       '.hentry',
       'main',
-      '#content'
+      '#content',
+      'header.entry-header',
+      '.entry-header',
+      'footer.entry-meta',
+      '.entry-meta',
+      '.o2-post',
+      '.p2020-post'
+    ];
+    
+    const secondarySelectors = [
+      '.o2-editor',
+      '.o2-editor-wrapper',
+      '#respond'
     ];
     
     selectors.forEach(function(sel) {
       document.querySelectorAll(sel).forEach(function(el) {
         const bg = getComputedStyle(el).backgroundColor;
-        if (bg === 'rgb(255, 255, 255)' || bg === 'white') {
+        if (bg === 'rgb(255, 255, 255)' || bg === 'white' || bg === 'rgb(243, 243, 243)') {
           el.style.setProperty('background-color', darkBg, 'important');
           console.log('P2 Dark Mode: Force-fixed background on', sel);
         }
       });
+    });
+    
+    // Secondary background elements (slightly lighter)
+    secondarySelectors.forEach(function(sel) {
+      document.querySelectorAll(sel).forEach(function(el) {
+        const bg = getComputedStyle(el).backgroundColor;
+        if (bg === 'rgb(255, 255, 255)' || bg === 'white') {
+          el.style.setProperty('background-color', darkBgSecondary, 'important');
+          console.log('P2 Dark Mode: Force-fixed secondary background on', sel);
+        }
+      });
+    });
+    
+    // Fix tags
+    document.querySelectorAll('a.tag, .tag').forEach(function(el) {
+      el.style.setProperty('background-color', '#2e2e2e', 'important');
+      el.style.setProperty('color', '#56a7d7', 'important');
     });
   }
 })();

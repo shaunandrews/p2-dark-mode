@@ -389,3 +389,158 @@ body.p2-dark-mode-enabled article[class*="post"] {
   background-color: #2c3e4a !important;
   color: #e6e6e6 !important;
 }
+
+/* ==========================================================================
+   Post Header (entry-header) - FIX WHITE BG
+   ========================================================================== */
+
+.p2-dark-mode-enabled header.entry-header,
+.p2-dark-mode-enabled .entry-header,
+.p2-dark-mode-enabled .entry-header__content,
+.p2-dark-mode-enabled .p2020-post > header {
+  background-color: #1a1a1a !important;
+}
+
+/* ==========================================================================
+   Entry Meta / Footer - FIX WHITE BG
+   ========================================================================== */
+
+.p2-dark-mode-enabled footer.entry-meta,
+.p2-dark-mode-enabled .entry-meta,
+.p2-dark-mode-enabled .o2-post footer {
+  background-color: #1a1a1a !important;
+}
+
+.p2-dark-mode-enabled .comments-count,
+.p2-dark-mode-enabled #comments-count {
+  background-color: #1a1a1a !important;
+  color: #e6e6e6 !important;
+}
+
+/* ==========================================================================
+   Tags - FIX WHITE BG
+   ========================================================================== */
+
+.p2-dark-mode-enabled a.tag,
+.p2-dark-mode-enabled .tag,
+.p2-dark-mode-enabled [class*="tag-"] a,
+.p2-dark-mode-enabled a[href*="/tag/"] {
+  background-color: #2e2e2e !important;
+  color: #56a7d7 !important;
+  border-color: #3a3a3a !important;
+}
+
+.p2-dark-mode-enabled a.tag:hover {
+  background-color: #3a3a3a !important;
+}
+
+/* ==========================================================================
+   GitHub Embeds - FIX TEXT COLORS
+   ========================================================================== */
+
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-title a,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__main a,
+.p2-dark-mode-enabled [class*="wp-block-p2-embed-github"] a {
+  color: #56a7d7 !important;
+}
+
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-description,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__pr-content,
+.p2-dark-mode-enabled [class*="wp-block-p2-embed-github"] span {
+  color: #c9c9c9 !important;
+}
+
+.p2-dark-mode-enabled .wp-block-p2-embed-github,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__main,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__right-container,
+.p2-dark-mode-enabled .wp-block-p2-embed-github__left-container {
+  background-color: #242424 !important;
+}
+
+/* ==========================================================================
+   Comment Editor / Input - FIX WHITE BG
+   ========================================================================== */
+
+.p2-dark-mode-enabled .o2-editor,
+.p2-dark-mode-enabled .o2-editor-wrapper,
+.p2-dark-mode-enabled .o2-editor-footer,
+.p2-dark-mode-enabled #respond,
+.p2-dark-mode-enabled .comment-new,
+.p2-dark-mode-enabled .comment-respond {
+  background-color: #242424 !important;
+  color: #c9c9c9 !important;
+}
+
+.p2-dark-mode-enabled .o2-editor .block-editor-block-list__layout,
+.p2-dark-mode-enabled .o2-editor [contenteditable],
+.p2-dark-mode-enabled .o2-editor .editor-styles-wrapper {
+  background-color: #242424 !important;
+  color: #c9c9c9 !important;
+}
+
+/* Editor placeholder text */
+.p2-dark-mode-enabled .o2-editor .block-editor-default-block-appender__content,
+.p2-dark-mode-enabled .o2-editor [data-empty="true"]::before {
+  color: #8c8c8c !important;
+}
+
+/* Editor toolbar */
+.p2-dark-mode-enabled .o2-editor .block-editor-block-toolbar,
+.p2-dark-mode-enabled .o2-editor .components-toolbar {
+  background-color: #2e2e2e !important;
+  border-color: #3a3a3a !important;
+}
+
+.p2-dark-mode-enabled .o2-editor button {
+  color: #c9c9c9 !important;
+}
+
+/* ==========================================================================
+   Comment Alternating Colors - NORMALIZE
+   ========================================================================== */
+
+/* All comments should have the same background */
+.p2-dark-mode-enabled .o2-post-comments > div,
+.p2-dark-mode-enabled .comment.depth-1,
+.p2-dark-mode-enabled .o2-comment.depth-1,
+.p2-dark-mode-enabled [class*="comment-"][class*="depth-1"] {
+  background-color: #242424 !important;
+}
+
+/* Thread-odd and thread-even should match */
+.p2-dark-mode-enabled .thread-odd,
+.p2-dark-mode-enabled .thread-even,
+.p2-dark-mode-enabled .thread-alt {
+  background-color: #242424 !important;
+}
+
+/* Nested replies slightly darker */
+.p2-dark-mode-enabled .depth-2,
+.p2-dark-mode-enabled .comment .comment {
+  background-color: #2a2a2a !important;
+}
+
+.p2-dark-mode-enabled .depth-3,
+.p2-dark-mode-enabled .comment .comment .comment {
+  background-color: #2e2e2e !important;
+}
+
+/* ==========================================================================
+   O2 Post Wrapper
+   ========================================================================== */
+
+.p2-dark-mode-enabled .o2-post,
+.p2-dark-mode-enabled .p2020-post,
+.p2-dark-mode-enabled div[class*="o2-post"] {
+  background-color: #1a1a1a !important;
+}
+
+/* ==========================================================================
+   Replies Header Area
+   ========================================================================== */
+
+.p2-dark-mode-enabled .o2-post-comments,
+.p2-dark-mode-enabled .o2-post-comment-controls {
+  background-color: #1a1a1a !important;
+}
