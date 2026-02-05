@@ -386,6 +386,30 @@
   color: #8c8c8c !important;
 }
 
+/* Compact post list view */
+.p2-dark-mode-enabled .p2020-compact-post,
+.p2-dark-mode-enabled .p2020-compact-post__preview,
+.p2-dark-mode-enabled .p2020-compact-post__preview-link {
+  background: transparent !important;
+  color: #c9c9c9 !important;
+}
+
+.p2-dark-mode-enabled .p2020-compact-post__preview-title {
+  color: #e6e6e6 !important;
+}
+
+.p2-dark-mode-enabled .p2020-compact-post__preview-excerpt,
+.p2-dark-mode-enabled .p2020-compact-post__author,
+.p2-dark-mode-enabled .p2020-compact-post__entry-date,
+.p2-dark-mode-enabled .p2020-compact-post__comments,
+.p2-dark-mode-enabled .p2020-compact-post__tags {
+  color: #8c8c8c !important;
+}
+
+.p2-dark-mode-enabled .p2020-compact-post__author a {
+  color: #56a7d7 !important;
+}
+
 /* ==========================================================================
    SIDEBAR - P2020 theme
    ========================================================================== */
