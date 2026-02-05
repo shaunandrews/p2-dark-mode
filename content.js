@@ -9,7 +9,7 @@
   'use strict';
 
   // ============================================
-  // SUBDOMAIN CHECK — Only run on P2 subdomains, not wordpress.com itself
+  // HOSTNAME CHECKS — Only run on P2 subdomains
   // ============================================
   
   const hostname = window.location.hostname;
@@ -19,51 +19,36 @@
     return;
   }
   
-  // Also bail if not a wordpress.com subdomain at all
+  // Bail if not a wordpress.com subdomain at all
   if (!hostname.endsWith('.wordpress.com')) {
     return;
   }
-
-  // ============================================
-  // SCRIM OVERLAY — Inject immediately at document_start
-  // ============================================
   
-  const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // Blocklist of known non-P2 wordpress.com subdomains
+  const nonP2Subdomains = [
+    'my.wordpress.com',           // WP.com dashboard/app
+    'public-api.wordpress.com',   // API
+    'developer.wordpress.com',    // Developer docs
+    'learn.wordpress.com',        // Learning portal
+    'developer.wordpress.com',    // Dev resources
+    'make.wordpress.com',         // Make WordPress (uses different theme)
+    'central.wordcamp.org',       // WordCamp
+    'profiles.wordpress.org',     // Profiles
+    'login.wordpress.org',        // Login
+    'subscribe.wordpress.com',    // Subscriptions
+    'widgets.wp.com',             // Widgets
+    'stats.wp.com',               // Stats
+    'pixel.wp.com',               // Tracking
+    'i0.wp.com', 'i1.wp.com', 'i2.wp.com', 'i3.wp.com', // Image CDN
+    's0.wp.com', 's1.wp.com', 's2.wp.com',              // Static assets
+  ];
   
-  // Create scrim immediately — before anything else renders
-  const scrim = document.createElement('div');
-  scrim.id = 'p2-dark-mode-scrim';
-  scrim.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999999;
-    background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
-    transition: opacity 150ms ease-out;
-    pointer-events: none;
-  `;
-  
-  // Append to documentElement (html) — exists at document_start, body doesn't
-  document.documentElement.appendChild(scrim);
-
-  /**
-   * Fade out and remove the scrim
-   */
-  function removeScrim() {
-    const scrim = document.getElementById('p2-dark-mode-scrim');
-    if (!scrim) return;
-    
-    scrim.style.opacity = '0';
-    
-    // Remove from DOM after transition completes
-    setTimeout(function() {
-      if (scrim.parentNode) {
-        scrim.parentNode.removeChild(scrim);
-      }
-    }, 160); // Slightly longer than transition to ensure completion
+  if (nonP2Subdomains.includes(hostname)) {
+    return;
   }
+  
+  // No scrim — we'll apply styles only after confirming it's a P2
+  // This prevents any visual impact on non-P2 sites
 
   /**
    * Check if the current page is a P2 site
@@ -170,10 +155,9 @@
    * Initialize P2 Dark Mode
    */
   function init() {
-    // If not a P2 site, remove scrim and bail
+    // If not a P2 site, bail
     if (!isP2Site()) {
       console.log('P2 Dark Mode: Not a P2 site, skipping');
-      removeScrim();
       return;
     }
 
@@ -195,13 +179,6 @@
       });
     }
 
-    // Give styles a moment to apply, then remove scrim
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        // Double rAF ensures styles are painted
-        removeScrim();
-      });
-    });
   }
 
   // Run when DOM is ready
