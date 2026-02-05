@@ -367,6 +367,25 @@
   color: #56a7d7 !important;
 }
 
+/* View selector dropdown (Default/Expanded/Compact) */
+.p2-dark-mode-enabled .p2020-view-selector,
+.p2-dark-mode-enabled .p2020-view-selector__menu-item,
+.p2-dark-mode-enabled .p2020-view-selector__menu-item-label,
+.p2-dark-mode-enabled .p2020-view-selector__menu-item-icon,
+.p2-dark-mode-enabled span.p2020-view-selector__menu-item-label {
+  background: transparent !important;
+  color: #c9c9c9 !important;
+}
+
+.p2-dark-mode-enabled .p2020-view-selector__menu-item:hover {
+  background: #2e2e2e !important;
+}
+
+/* Description text under view options */
+.p2-dark-mode-enabled .p2020-view-selector__menu-item span {
+  color: #8c8c8c !important;
+}
+
 /* ==========================================================================
    SIDEBAR - P2020 theme
    ========================================================================== */
