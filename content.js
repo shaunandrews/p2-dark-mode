@@ -27,6 +27,17 @@
   }
 
   // ============================================
+  // INJECT STYLESHEET — Only for allowed sites
+  // ============================================
+  
+  const link = document.createElement('link');
+  link.id = 'p2-dark-mode-css';
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = chrome.runtime.getURL('styles/dark.css');
+  (document.head || document.documentElement).appendChild(link);
+
+  // ============================================
   // SCRIM OVERLAY — Inject immediately at document_start
   // ============================================
   
