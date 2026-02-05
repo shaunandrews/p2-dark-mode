@@ -248,6 +248,15 @@
   border-top-color: #1a1a1a !important;
 }
 
+/* Post dividers - subtle dark line */
+.p2-dark-mode-enabled article.post::before,
+.p2-dark-mode-enabled article.hentry::before,
+.p2-dark-mode-enabled .o2-post::before,
+.p2-dark-mode-enabled .type-post::before {
+  background-color: #2a2a2a !important;
+  background: #2a2a2a !important;
+}
+
 /* ==========================================================================
    NAV LINKS (prev/next)
    ========================================================================== */
