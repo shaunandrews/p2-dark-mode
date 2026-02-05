@@ -14,7 +14,8 @@
   
   const hostname = window.location.hostname;
   
-  const allowedP2Sites = [
+  // Default sites (fallback if storage hasn't been set)
+  const DEFAULT_SITES = [
     'designomattic.wordpress.com',
     'aip2.wordpress.com',
     'growthp2.wordpress.com',
@@ -22,7 +23,32 @@
     'dotcomdesignp2.wordpress.com',
   ];
   
-  if (!allowedP2Sites.includes(hostname)) {
+  // We need to check storage, but it's async
+  // Strategy: proceed for default sites, check storage and clean up if needed
+  
+  let shouldProceed = false;
+  
+  // Check storage for user's allowlist
+  chrome.storage.sync.get(['allowlist'], (result) => {
+    const allowlist = result.allowlist || DEFAULT_SITES;
+    
+    if (!allowlist.includes(hostname)) {
+      // Not allowed - clean up anything we may have injected
+      const scrim = document.getElementById('p2-dark-mode-scrim');
+      if (scrim) scrim.remove();
+      const css = document.getElementById('p2-dark-mode-css');
+      if (css) css.remove();
+      document.documentElement.classList.remove('p2-dark-mode-enabled');
+      if (document.body) document.body.classList.remove('p2-dark-mode-enabled');
+      return;
+    }
+    
+    // Allowed - mark as ready (scrim/CSS already injected below for default sites)
+    shouldProceed = true;
+  });
+  
+  // For non-default sites, bail early (they'll activate after page refresh when added)
+  if (!DEFAULT_SITES.includes(hostname)) {
     return;
   }
 
