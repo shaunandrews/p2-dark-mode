@@ -3,6 +3,8 @@
  * 
  * Designed dark palette for comfortable night reading.
  * Only applies when system is set to dark mode.
+ * 
+ * Uses !important to override P2 theme specificity.
  */
 
 @media (prefers-color-scheme: dark) {
@@ -28,71 +30,75 @@
   }
 
   /* ==========================================================================
-     Global / Body Backgrounds
+     P2-Specific Global Overrides (high specificity + !important)
      ========================================================================== */
   
-  html,
-  body {
-    background-color: var(--p2-bg-primary);
-    color: var(--p2-text-secondary);
+  /* Body - target P2 specific classes */
+  body,
+  body.o2,
+  body.a8c-p2,
+  body.wp-theme-pubp2020,
+  body.jps-theme-pub\/p2020 {
+    background-color: #1a1a1a !important;
+    color: #c9c9c9 !important;
   }
 
+  /* Main content area */
   main,
+  main#content,
   #content,
-  .site-content {
-    background-color: var(--p2-bg-primary);
+  .site-content,
+  .o2-app {
+    background-color: #1a1a1a !important;
+  }
+
+  /* Article / Post */
+  article,
+  article.post,
+  .post,
+  .type-post,
+  .hentry {
+    background-color: #1a1a1a !important;
+  }
+
+  /* P2 post content wrapper */
+  .o2-post,
+  .o2-posts,
+  #o2-wrapper {
+    background-color: #1a1a1a !important;
   }
 
   /* ==========================================================================
-     Sidebar
+     P2 Sidebar
      ========================================================================== */
   
+  /* Sidebar wrapper */
+  .p2020-sidebar,
+  .o2-sidebar,
   aside,
   [role="complementary"] {
-    background-color: var(--p2-bg-secondary);
-    color: var(--p2-text-secondary);
+    background-color: #242424 !important;
+    color: #c9c9c9 !important;
   }
 
-  aside h2,
-  aside h3,
-  aside h4 {
-    color: var(--p2-text-primary);
+  /* Sidebar header area */
+  .p2020-sidebar-site-title,
+  .p2020-sidebar-site-description {
+    color: #e6e6e6 !important;
   }
 
-  aside p,
-  aside li {
-    color: var(--p2-text-secondary);
+  /* Widget areas */
+  .widget,
+  .widget_text {
+    background-color: transparent !important;
+    color: #c9c9c9 !important;
   }
 
-  /* Team list and recent activity */
-  .team-list,
-  .recent-activity {
-    background-color: var(--p2-bg-secondary);
-  }
-
-  /* Sidebar borders */
-  aside section,
-  aside div {
-    border-color: var(--p2-border);
-  }
-
-  /* ==========================================================================
-     Main Content Area
-     ========================================================================== */
-  
-  [role="main"] {
-    background-color: var(--p2-bg-primary);
-  }
-
-  /* Article / Post wrapper */
-  article {
-    background-color: var(--p2-bg-primary);
-    border-color: var(--p2-border);
-  }
-
-  /* Post headers */
-  article header {
-    background-color: transparent;
+  .widget h2,
+  .widget h3,
+  .widget h4,
+  .widget-title {
+    color: #e6e6e6 !important;
   }
 
   /* ==========================================================================
@@ -100,12 +106,12 @@
      ========================================================================== */
   
   h1, h2, h3, h4, h5, h6,
+  .entry-title,
+  .entry-title a,
   article h1,
   article h2,
-  article h3,
-  article h4,
-  .entry-title {
-    color: var(--p2-text-primary);
+  article h3 {
+    color: #e6e6e6 !important;
   }
 
   /* ==========================================================================
@@ -113,14 +119,13 @@
      ========================================================================== */
   
   p,
-  article p,
-  article ul,
-  article ol,
-  article li,
+  li,
   .entry-content,
   .entry-content p,
-  .entry-content li {
-    color: var(--p2-text-secondary);
+  .entry-content li,
+  .o2-post-content,
+  .o2-post-content p {
+    color: #c9c9c9 !important;
   }
 
   /* ==========================================================================
@@ -128,13 +133,13 @@
      ========================================================================== */
   
   .entry-meta,
-  article time,
-  article a[href*="/author/"],
+  .entry-meta a,
+  time,
   .comment-date,
-  small,
-  .meta,
-  .timestamp {
-    color: var(--p2-text-tertiary);
+  .o2-timestamp,
+  .o2-post-meta,
+  small {
+    color: #8c8c8c !important;
   }
 
   /* ==========================================================================
@@ -142,73 +147,91 @@
      ========================================================================== */
   
   a {
-    color: var(--p2-link);
+    color: #56a7d7 !important;
   }
 
   a:hover,
   a:focus {
-    color: var(--p2-link-hover);
+    color: #7abce6 !important;
   }
 
-  a:visited {
-    color: var(--p2-link);
+  /* Keep entry title links lighter */
+  .entry-title a {
+    color: #e6e6e6 !important;
   }
 
-  /* Mention links (@username) - highlighted background */
-  a[href*="/mentions/"] {
-    color: var(--p2-link);
-    background-color: var(--p2-mention-bg);
+  .entry-title a:hover {
+    color: #56a7d7 !important;
+  }
+
+  /* Mention links (@username) */
+  a[href*="/mentions/"],
+  .o2-mention {
+    color: #56a7d7 !important;
+    background-color: #2c3e4a !important;
     padding: 0.1em 0.3em;
     border-radius: 3px;
   }
 
-  a[href*="/mentions/"]:hover {
-    color: var(--p2-link-hover);
-  }
-
-  /* P2 cross-links */
+  /* P2 cross-links (+p2name) */
   a[href*="wordpress.com"] {
-    color: var(--p2-link);
+    color: #56a7d7 !important;
   }
 
   /* ==========================================================================
-     Comments
+     Comments - P2 O2 System
      ========================================================================== */
   
   .comment,
-  .comment-body {
-    background-color: var(--p2-bg-primary);
-    color: var(--p2-text-secondary);
-    border-color: var(--p2-border);
+  .o2-comment,
+  .comment-body,
+  .o2-comment-content {
+    background-color: #242424 !important;
+    color: #c9c9c9 !important;
+    border-color: #3a3a3a !important;
   }
 
-  .comment-author {
-    color: var(--p2-text-primary);
+  .comment-author,
+  .o2-comment-author,
+  .comment-author a {
+    color: #e6e6e6 !important;
   }
 
-  .comment-date {
-    color: var(--p2-text-tertiary);
+  .comment-date,
+  .o2-comment-date {
+    color: #8c8c8c !important;
   }
 
-  /* Nested comments (replies) - slightly different background */
+  /* Nested comments */
   .comment .comment,
-  .comment-body .comment-body {
-    background-color: var(--p2-bg-secondary);
+  .o2-comment .o2-comment {
+    background-color: #2e2e2e !important;
   }
 
-  /* Deeper nesting */
-  .comment .comment .comment,
-  .comment-body .comment-body .comment-body {
-    background-color: var(--p2-bg-tertiary);
+  /* Reply/action links */
+  .comment-reply-link,
+  .o2-post-reply,
+  .o2-reply {
+    color: #56a7d7 !important;
+    background-color: transparent !important;
   }
 
-  /* Reply link */
-  .comment-reply-link {
-    color: var(--p2-link);
+  /* Comments count header */
+  .comments-count,
+  #comments-count {
+    color: #e6e6e6 !important;
   }
 
-  .comment-reply-link:hover {
-    color: var(--p2-link-hover);
+  /* ==========================================================================
+     AI Summary Box (P2 specific)
+     ========================================================================== */
+  
+  .ai-summary,
+  [class*="ai-summary"],
+  .wp-block-p2-ai-summary {
+    background-color: #242424 !important;
+    border-color: #3a3a3a !important;
+    color: #c9c9c9 !important;
   }
 
   /* ==========================================================================
@@ -216,15 +239,15 @@
      ========================================================================== */
   
   blockquote {
-    background-color: var(--p2-blockquote-bg);
-    border-left-color: var(--p2-blockquote-border);
+    background-color: #1e2440 !important;
+    border-left-color: #5b7aed !important;
     border-left-width: 4px;
     border-left-style: solid;
-    color: var(--p2-text-secondary);
+    color: #c9c9c9 !important;
   }
 
   blockquote p {
-    color: var(--p2-text-secondary);
+    color: #c9c9c9 !important;
   }
 
   /* ==========================================================================
@@ -233,17 +256,18 @@
   
   code,
   pre,
-  pre code {
-    background-color: var(--p2-code-bg);
-    color: var(--p2-text-secondary);
-    border-color: var(--p2-border);
+  pre code,
+  .wp-block-code {
+    background-color: #2d2d2d !important;
+    color: #c9c9c9 !important;
+    border-color: #3a3a3a !important;
   }
 
   /* Inline code */
   p code,
   li code {
-    background-color: var(--p2-code-bg);
-    color: var(--p2-text-secondary);
+    background-color: #2d2d2d !important;
+    color: #c9c9c9 !important;
     padding: 0.15em 0.4em;
     border-radius: 3px;
   }
@@ -255,46 +279,44 @@
   input,
   textarea,
   select {
-    background-color: var(--p2-bg-tertiary);
-    color: var(--p2-text-primary);
-    border-color: var(--p2-border);
+    background-color: #2e2e2e !important;
+    color: #e6e6e6 !important;
+    border-color: #3a3a3a !important;
   }
 
   input::placeholder,
   textarea::placeholder {
-    color: var(--p2-text-tertiary);
-  }
-
-  input:focus,
-  textarea:focus,
-  select:focus {
-    background-color: var(--p2-bg-secondary);
-    border-color: var(--p2-link);
-    outline-color: var(--p2-link);
-  }
-
-  /* Search */
-  input[type="search"],
-  .search-field {
-    background-color: var(--p2-bg-tertiary);
-    color: var(--p2-text-primary);
-    border-color: var(--p2-border);
+    color: #8c8c8c !important;
   }
 
   /* Buttons */
   button,
   input[type="submit"],
-  input[type="button"] {
-    background-color: var(--p2-bg-tertiary);
-    color: var(--p2-text-primary);
-    border-color: var(--p2-border);
+  input[type="button"],
+  .button {
+    background-color: #2e2e2e !important;
+    color: #e6e6e6 !important;
+    border-color: #3a3a3a !important;
   }
 
   button:hover,
-  input[type="submit"]:hover,
-  input[type="button"]:hover {
-    background-color: var(--p2-bg-secondary);
-    color: var(--p2-text-primary);
+  .button:hover {
+    background-color: #3a3a3a !important;
+  }
+
+  /* ==========================================================================
+     GitHub Embeds (P2 specific)
+     ========================================================================== */
+  
+  .wp-block-p2-embed-github,
+  [class*="wp-block-p2-embed"] {
+    background-color: #242424 !important;
+    border-color: #3a3a3a !important;
+  }
+
+  .wp-block-p2-embed-github__type-badge {
+    background-color: #2e2e2e !important;
+    color: #c9c9c9 !important;
   }
 
   /* ==========================================================================
@@ -302,10 +324,11 @@
      ========================================================================== */
   
   [role="tooltip"],
-  .tooltip {
-    background-color: var(--p2-bg-secondary);
-    color: var(--p2-text-primary);
-    border-color: var(--p2-border);
+  .tooltip,
+  .o2-tooltip {
+    background-color: #242424 !important;
+    color: #e6e6e6 !important;
+    border-color: #3a3a3a !important;
   }
 
   /* ==========================================================================
@@ -313,46 +336,63 @@
      ========================================================================== */
   
   hr {
-    border-color: var(--p2-border);
-    background-color: var(--p2-border);
-  }
-
-  /* Generic border overrides */
-  [style*="border"],
-  article,
-  .comment,
-  aside section {
-    border-color: var(--p2-border);
+    border-color: #3a3a3a !important;
+    background-color: #3a3a3a !important;
   }
 
   /* ==========================================================================
-     Tables
+     Thread Links / Related Posts
      ========================================================================== */
   
-  table {
-    background-color: var(--p2-bg-primary);
-    border-color: var(--p2-border);
+  .o2-post-threads,
+  .o2-thread-item {
+    background-color: transparent !important;
+    border-color: #3a3a3a !important;
   }
 
-  th {
-    background-color: var(--p2-bg-secondary);
-    color: var(--p2-text-primary);
-    border-color: var(--p2-border);
+  /* ==========================================================================
+     Action Bars / Post Footer
+     ========================================================================== */
+  
+  .o2-actions,
+  .o2-post-actions,
+  .entry-actions {
+    background-color: transparent !important;
   }
 
-  td {
-    background-color: var(--p2-bg-primary);
-    color: var(--p2-text-secondary);
-    border-color: var(--p2-border);
+  .o2-actions a,
+  .o2-post-actions a {
+    color: #8c8c8c !important;
   }
 
-  tr:nth-child(even) td {
-    background-color: var(--p2-bg-secondary);
+  .o2-actions a:hover {
+    color: #56a7d7 !important;
+  }
+
+  /* ==========================================================================
+     Likes / Stars
+     ========================================================================== */
+
+  .o2-likes,
+  .likes,
+  [class*="like"] span {
+    color: #8c8c8c !important;
+  }
+
+  /* ==========================================================================
+     Lists (ensure visibility)
+     ========================================================================== */
+  
+  ul, ol {
+    color: #c9c9c9 !important;
+  }
+
+  li {
+    background-color: transparent !important;
   }
 
   /* ==========================================================================
      Protected Media Elements
-     These should NOT have color changes applied.
      ========================================================================== */
   
   img,
@@ -370,16 +410,16 @@
      ========================================================================== */
   
   ::-webkit-scrollbar {
-    background-color: var(--p2-bg-secondary);
+    background-color: #242424;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--p2-bg-tertiary);
+    background-color: #3a3a3a;
     border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--p2-text-tertiary);
+    background-color: #8c8c8c;
   }
 
   /* ==========================================================================
@@ -387,13 +427,13 @@
      ========================================================================== */
   
   ::selection {
-    background-color: var(--p2-mention-bg);
-    color: var(--p2-text-primary);
+    background-color: #2c3e4a !important;
+    color: #e6e6e6 !important;
   }
 
   ::-moz-selection {
-    background-color: var(--p2-mention-bg);
-    color: var(--p2-text-primary);
+    background-color: #2c3e4a !important;
+    color: #e6e6e6 !important;
   }
 
 }
