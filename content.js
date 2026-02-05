@@ -9,6 +9,22 @@
   'use strict';
 
   // ============================================
+  // SUBDOMAIN CHECK — Only run on P2 subdomains, not wordpress.com itself
+  // ============================================
+  
+  const hostname = window.location.hostname;
+  
+  // Bail if we're on wordpress.com itself (not a subdomain)
+  if (hostname === 'wordpress.com' || hostname === 'www.wordpress.com') {
+    return;
+  }
+  
+  // Also bail if not a wordpress.com subdomain at all
+  if (!hostname.endsWith('.wordpress.com')) {
+    return;
+  }
+
+  // ============================================
   // SCRIM OVERLAY — Inject immediately at document_start
   // ============================================
   
