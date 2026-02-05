@@ -14,13 +14,8 @@
     {
       "matches": ["*://*.wordpress.com/*"],
       "js": ["content.js"],
+      "css": ["styles/dark.css"],
       "run_at": "document_start"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["styles/dark.css"],
-      "matches": ["*://*.wordpress.com/*"]
     }
   ]
 }

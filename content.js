@@ -9,7 +9,7 @@
   'use strict';
 
   // ============================================
-  // HOSTNAME CHECKS — Only run on P2 subdomains
+  // SUBDOMAIN CHECK — Only run on P2 subdomains, not wordpress.com itself
   // ============================================
   
   const hostname = window.location.hostname;
@@ -19,28 +19,19 @@
     return;
   }
   
-  // Bail if not a wordpress.com subdomain at all
+  // Also bail if not a wordpress.com subdomain at all
   if (!hostname.endsWith('.wordpress.com')) {
     return;
   }
   
   // Blocklist of known non-P2 wordpress.com subdomains
   const nonP2Subdomains = [
-    'my.wordpress.com',           // WP.com dashboard/app
-    'public-api.wordpress.com',   // API
-    'developer.wordpress.com',    // Developer docs
-    'learn.wordpress.com',        // Learning portal
-    'developer.wordpress.com',    // Dev resources
-    'make.wordpress.com',         // Make WordPress (uses different theme)
-    'central.wordcamp.org',       // WordCamp
-    'profiles.wordpress.org',     // Profiles
-    'login.wordpress.org',        // Login
-    'subscribe.wordpress.com',    // Subscriptions
-    'widgets.wp.com',             // Widgets
-    'stats.wp.com',               // Stats
-    'pixel.wp.com',               // Tracking
-    'i0.wp.com', 'i1.wp.com', 'i2.wp.com', 'i3.wp.com', // Image CDN
-    's0.wp.com', 's1.wp.com', 's2.wp.com',              // Static assets
+    'my.wordpress.com',
+    'public-api.wordpress.com',
+    'developer.wordpress.com',
+    'learn.wordpress.com',
+    'make.wordpress.com',
+    'subscribe.wordpress.com',
   ];
   
   if (nonP2Subdomains.includes(hostname)) {
@@ -48,11 +39,12 @@
   }
 
   // ============================================
-  // SCRIM OVERLAY — Show immediately on potential P2 sites
+  // SCRIM OVERLAY — Inject immediately at document_start
   // ============================================
   
   const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   
+  // Create scrim immediately — before anything else renders
   const scrim = document.createElement('div');
   scrim.id = 'p2-dark-mode-scrim';
   scrim.style.cssText = `
@@ -63,19 +55,28 @@
     bottom: 0;
     z-index: 999999;
     background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
-    transition: opacity 180ms ease-out;
+    transition: opacity 150ms ease-out;
     pointer-events: none;
   `;
+  
+  // Append to documentElement (html) — exists at document_start, body doesn't
   document.documentElement.appendChild(scrim);
 
   /**
-   * Remove the scrim with fade
+   * Fade out and remove the scrim
    */
   function removeScrim() {
-    const s = document.getElementById('p2-dark-mode-scrim');
-    if (!s) return;
-    s.style.opacity = '0';
-    setTimeout(() => s.remove(), 200);
+    const scrim = document.getElementById('p2-dark-mode-scrim');
+    if (!scrim) return;
+    
+    scrim.style.opacity = '0';
+    
+    // Remove from DOM after transition completes
+    setTimeout(function() {
+      if (scrim.parentNode) {
+        scrim.parentNode.removeChild(scrim);
+      }
+    }, 160); // Slightly longer than transition to ensure completion
   }
 
   /**
@@ -165,21 +166,6 @@
   }
 
   /**
-   * Inject the dark mode CSS stylesheet
-   */
-  function injectStylesheet() {
-    if (document.getElementById('p2-dark-mode-css')) return; // Already injected
-    
-    const link = document.createElement('link');
-    link.id = 'p2-dark-mode-css';
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = chrome.runtime.getURL('styles/dark.css');
-    document.head.appendChild(link);
-    console.log('P2 Dark Mode: Stylesheet injected');
-  }
-
-  /**
    * Initialize P2 Dark Mode
    */
   function init() {
@@ -191,9 +177,6 @@
     }
 
     console.log('P2 Dark Mode: P2 detected');
-    
-    // Inject CSS only for P2 sites
-    injectStylesheet();
     
     // Apply dark mode based on system preference
     applyDarkMode(prefersDarkMode());
@@ -208,8 +191,13 @@
       });
     }
 
-    // Remove scrim after styles applied
-    requestAnimationFrame(() => requestAnimationFrame(() => removeScrim()));
+    // Give styles a moment to apply, then remove scrim
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        // Double rAF ensures styles are painted
+        removeScrim();
+      });
+    });
   }
 
   // Run when DOM is ready
