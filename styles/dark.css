@@ -1,0 +1,12 @@
+/**
+ * P2 Dark Mode Stylesheet
+ * 
+ * This file will contain all dark mode overrides for P2 sites.
+ * Styles are wrapped in @media (prefers-color-scheme: dark) to
+ * automatically activate based on system preference.
+ * 
+ * See docs/build-plan.md for the color palette.
+ * See docs/p2-selectors.md for the selector reference (once created).
+ * 
+ * TODO: Populate with actual dark mode styles after selector research.
+ */
