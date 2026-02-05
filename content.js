@@ -159,6 +159,90 @@
   
   const isDefaultSite = DEFAULT_SITES.includes(hostname);
   
+  function showEnablePrompt() {
+    // Only show if hostname looks like a P2 (ends with p2.wordpress.com)
+    if (!hostname.match(/p2\.wordpress\.com$/)) return;
+    
+    // Wait for body
+    function inject() {
+      if (document.getElementById('p2-dark-mode-prompt')) return;
+      
+      const prompt = document.createElement('div');
+      prompt.id = 'p2-dark-mode-prompt';
+      prompt.innerHTML = `
+        <style>
+          #p2-dark-mode-prompt {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            color: #e6e6e6;
+            padding: 16px 20px;
+            border-radius: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 340px;
+          }
+          #p2-dark-mode-prompt button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+          }
+          #p2-dark-mode-prompt .enable-btn {
+            background: #0675c4;
+            color: white;
+          }
+          #p2-dark-mode-prompt .enable-btn:hover {
+            background: #0563a1;
+          }
+          #p2-dark-mode-prompt .dismiss-btn {
+            background: transparent;
+            color: #999;
+          }
+          #p2-dark-mode-prompt .dismiss-btn:hover {
+            color: #ccc;
+          }
+        </style>
+        <span>🌙 Enable dark mode on this P2?</span>
+        <button class="enable-btn">Enable</button>
+        <button class="dismiss-btn">✕</button>
+      `;
+      document.body.appendChild(prompt);
+      
+      prompt.querySelector('.enable-btn').addEventListener('click', async () => {
+        const result = await chrome.storage.sync.get(['allowlist']);
+        const allowlist = result.allowlist || DEFAULT_SITES;
+        if (!allowlist.includes(hostname)) {
+          allowlist.push(hostname);
+          await chrome.storage.sync.set({ allowlist });
+        }
+        prompt.remove();
+        location.reload();
+      });
+      
+      prompt.querySelector('.dismiss-btn').addEventListener('click', () => {
+        prompt.remove();
+        // Remember dismissal for this session
+        sessionStorage.setItem('p2-dark-mode-dismissed', 'true');
+      });
+    }
+    
+    if (document.body) {
+      inject();
+    } else {
+      document.addEventListener('DOMContentLoaded', inject);
+    }
+  }
+  
   if (isDefaultSite) {
     // Default site: inject immediately, verify with storage
     injectCSS();
@@ -179,6 +263,9 @@
         injectCSS();
         injectScrim();
         initP2Detection();
+      } else if (!sessionStorage.getItem('p2-dark-mode-dismissed')) {
+        // Not in allowlist - show prompt if it looks like a P2
+        showEnablePrompt();
       }
     });
   }
