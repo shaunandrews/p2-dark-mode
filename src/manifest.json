@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "P2 Dark Mode",
   "description": "Dark mode for WordPress P2 sites, follows system preference",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",

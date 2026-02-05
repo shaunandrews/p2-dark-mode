@@ -2,8 +2,6 @@
 
 A Chrome extension that adds dark mode to WordPress P2 sites, respecting your system's dark mode preference.
 
-![P2 Dark Mode](icons/icon-128.png)
-
 ## Features
 
 - 🌙 Automatic dark mode based on system preference
@@ -99,7 +97,7 @@ p2-dark-mode/
 │       ├── icon-48.png
 │       └── icon-128.png
 ├── build/                 # Packaged releases
-│   └── p2-dark-mode-v1.0.0.zip
+│   └── p2-dark-mode-v0.1.0.zip
 └── README.md
 ```
 
@@ -113,7 +111,7 @@ p2-dark-mode/
 ### Building a release
 
 ```bash
-cd src && zip -r ../build/p2-dark-mode-v1.0.0.zip . -x "*.DS_Store"
+cd src && zip -r ../build/p2-dark-mode-v0.1.0.zip . -x "*.DS_Store"
 ```
 
 ## License
