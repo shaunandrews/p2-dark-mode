@@ -8,11 +8,15 @@
 (function() {
   'use strict';
 
-  // ============================================
-  // ALLOWLIST — Only run on approved P2 sites
-  // ============================================
-  
   const hostname = window.location.hostname;
+  
+  // Must be a wordpress.com subdomain
+  if (!hostname.endsWith('.wordpress.com') || 
+      hostname === 'wordpress.com' || 
+      hostname === 'www.wordpress.com' ||
+      hostname === 'my.wordpress.com') {
+    return;
+  }
   
   // Default sites (fallback if storage hasn't been set)
   const DEFAULT_SITES = [
@@ -23,224 +27,159 @@
     'dotcomdesignp2.wordpress.com',
   ];
   
-  // We need to check storage, but it's async
-  // Strategy: proceed for default sites, check storage and clean up if needed
+  // ============================================
+  // HELPER FUNCTIONS
+  // ============================================
   
-  let shouldProceed = false;
-  
-  // Check storage for user's allowlist
-  chrome.storage.sync.get(['allowlist'], (result) => {
-    const allowlist = result.allowlist || DEFAULT_SITES;
-    
-    if (!allowlist.includes(hostname)) {
-      // Not allowed - clean up anything we may have injected
-      const scrim = document.getElementById('p2-dark-mode-scrim');
-      if (scrim) scrim.remove();
-      const css = document.getElementById('p2-dark-mode-css');
-      if (css) css.remove();
-      document.documentElement.classList.remove('p2-dark-mode-enabled');
-      if (document.body) document.body.classList.remove('p2-dark-mode-enabled');
-      return;
-    }
-    
-    // Allowed - mark as ready (scrim/CSS already injected below for default sites)
-    shouldProceed = true;
-  });
-  
-  // For non-default sites, bail early (they'll activate after page refresh when added)
-  if (!DEFAULT_SITES.includes(hostname)) {
-    return;
+  function injectCSS() {
+    if (document.getElementById('p2-dark-mode-css')) return;
+    const link = document.createElement('link');
+    link.id = 'p2-dark-mode-css';
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = chrome.runtime.getURL('styles/dark.css');
+    (document.head || document.documentElement).appendChild(link);
   }
-
-  // ============================================
-  // INJECT STYLESHEET — Only for allowed sites
-  // ============================================
   
-  const link = document.createElement('link');
-  link.id = 'p2-dark-mode-css';
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = chrome.runtime.getURL('styles/dark.css');
-  (document.head || document.documentElement).appendChild(link);
-
-  // ============================================
-  // SCRIM OVERLAY — Inject immediately at document_start
-  // ============================================
+  function injectScrim() {
+    if (document.getElementById('p2-dark-mode-scrim')) return;
+    const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    const scrim = document.createElement('div');
+    scrim.id = 'p2-dark-mode-scrim';
+    scrim.style.cssText = `
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 999999;
+      background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
+      transition: opacity 150ms ease-out;
+      pointer-events: none;
+    `;
+    document.documentElement.appendChild(scrim);
+  }
   
-  const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  
-  // Create scrim immediately — before anything else renders
-  const scrim = document.createElement('div');
-  scrim.id = 'p2-dark-mode-scrim';
-  scrim.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999999;
-    background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
-    transition: opacity 150ms ease-out;
-    pointer-events: none;
-  `;
-  
-  // Append to documentElement (html) — exists at document_start, body doesn't
-  document.documentElement.appendChild(scrim);
-
-  /**
-   * Fade out and remove the scrim
-   */
   function removeScrim() {
     const scrim = document.getElementById('p2-dark-mode-scrim');
     if (!scrim) return;
-    
     scrim.style.opacity = '0';
-    
-    // Remove from DOM after transition completes
-    setTimeout(function() {
-      if (scrim.parentNode) {
-        scrim.parentNode.removeChild(scrim);
-      }
-    }, 160); // Slightly longer than transition to ensure completion
+    setTimeout(() => scrim.remove(), 160);
   }
-
-  /**
-   * Check if the current page is a P2 site
-   */
+  
+  function removeDarkMode() {
+    document.getElementById('p2-dark-mode-scrim')?.remove();
+    document.getElementById('p2-dark-mode-css')?.remove();
+    document.documentElement.classList.remove('p2-dark-mode-enabled');
+    document.body?.classList.remove('p2-dark-mode-enabled');
+  }
+  
   function isP2Site() {
     const body = document.body;
     if (!body) return false;
-
-    const bodyClasses = body.className;
     
-    // P2 flavor theme markers
+    const bodyClasses = body.className;
     if (bodyClasses.includes('flavor-flavor-flavor') || 
         bodyClasses.includes('flavor-flavor')) {
       return true;
     }
-
-    // Check for P2-specific elements
-    const p2Markers = [
-      '.p2-header',
-      '#p2-site-header',
-      '.p2020-site-header',
-      '.o2-app',
-      '.o2-posts',
-      '#o2-wrapper'
-    ];
-
-    for (const selector of p2Markers) {
-      if (document.querySelector(selector)) {
-        return true;
-      }
-    }
-
-    return false;
+    
+    const p2Markers = ['.p2-header', '#p2-site-header', '.p2020-site-header', 
+                       '.o2-app', '.o2-posts', '#o2-wrapper'];
+    return p2Markers.some(sel => document.querySelector(sel));
   }
-
-  /**
-   * Check if system prefers dark mode
-   */
+  
   function prefersDarkMode() {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches;
   }
-
-  /**
-   * Apply or remove dark mode class
-   */
+  
   function applyDarkMode(enable) {
     if (enable) {
       document.documentElement.classList.add('p2-dark-mode-enabled');
-      document.body.classList.add('p2-dark-mode-enabled');
-      console.log('P2 Dark Mode: Enabled');
+      document.body?.classList.add('p2-dark-mode-enabled');
     } else {
       document.documentElement.classList.remove('p2-dark-mode-enabled');
-      document.body.classList.remove('p2-dark-mode-enabled');
-      console.log('P2 Dark Mode: Disabled (system in light mode)');
+      document.body?.classList.remove('p2-dark-mode-enabled');
     }
   }
-
-  /**
-   * Nuclear option: force EVERYTHING to dark bg
-   */
+  
   function forceFixBackgrounds() {
     if (!prefersDarkMode()) return;
-    
     const darkBg = '#1a1a1a';
-    
-    // Find ALL elements with white-ish backgrounds and fix them
-    document.querySelectorAll('*').forEach(function(el) {
+    document.querySelectorAll('*').forEach(el => {
       const bg = getComputedStyle(el).backgroundColor;
-      if (bg === 'rgb(255, 255, 255)' || 
-          bg === 'white' || 
-          bg === 'rgb(243, 243, 243)' ||
-          bg === 'rgb(240, 240, 240)' ||
-          bg === 'rgb(248, 248, 248)' ||
-          bg === 'rgb(250, 250, 250)') {
+      if (['rgb(255, 255, 255)', 'white', 'rgb(243, 243, 243)', 
+           'rgb(240, 240, 240)', 'rgb(248, 248, 248)', 'rgb(250, 250, 250)'].includes(bg)) {
         el.style.setProperty('background-color', darkBg, 'important');
       }
     });
-    
-    // Specifically target GitHub embeds with inline styles
-    document.querySelectorAll('[class*="wp-block-p2-embed-github"]').forEach(function(el) {
-      el.style.setProperty('background-color', darkBg, 'important');
-      el.style.setProperty('background', darkBg, 'important');
-    });
-    
-    console.log('P2 Dark Mode: Force-fixed backgrounds');
   }
-
-  /**
-   * Initialize P2 Dark Mode
-   */
-  function init() {
-    // If not a P2 site, remove scrim and bail
-    if (!isP2Site()) {
-      console.log('P2 Dark Mode: Not a P2 site, skipping');
-      removeScrim();
-      return;
-    }
-
-    console.log('P2 Dark Mode: P2 detected');
-    
-    // Apply dark mode based on system preference
-    applyDarkMode(prefersDarkMode());
-
-    // Listen for system dark mode changes
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        applyDarkMode(e.matches);
-        if (e.matches) {
-          forceFixBackgrounds();
-        }
-      });
-    }
-
-    // Give styles a moment to apply, then remove scrim
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        // Double rAF ensures styles are painted
+  
+  // ============================================
+  // MAIN INITIALIZATION
+  // ============================================
+  
+  function initP2Detection() {
+    function init() {
+      if (!isP2Site()) {
+        console.log('P2 Dark Mode: Not a P2 site, skipping');
         removeScrim();
-      });
-    });
-  }
-
-  // Run when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  // Delayed check for SPAs and force-fix stubborn backgrounds
-  setTimeout(function() {
-    if (document.body && !document.body.classList.contains('p2-dark-mode-enabled') && isP2Site()) {
-      console.log('P2 Dark Mode: Delayed P2 detection, applying styles');
+        return;
+      }
+      
+      console.log('P2 Dark Mode: P2 detected');
       applyDarkMode(prefersDarkMode());
+      
+      window.matchMedia?.('(prefers-color-scheme: dark)')
+        .addEventListener('change', e => {
+          applyDarkMode(e.matches);
+          if (e.matches) forceFixBackgrounds();
+        });
+      
+      requestAnimationFrame(() => requestAnimationFrame(() => removeScrim()));
     }
     
-    if (document.body && document.body.classList.contains('p2-dark-mode-enabled')) {
-      forceFixBackgrounds();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
     }
-  }, 1000);
+    
+    // Delayed check for SPAs
+    setTimeout(() => {
+      if (document.body && !document.body.classList.contains('p2-dark-mode-enabled') && isP2Site()) {
+        applyDarkMode(prefersDarkMode());
+      }
+      if (document.body?.classList.contains('p2-dark-mode-enabled')) {
+        forceFixBackgrounds();
+      }
+    }, 1000);
+  }
+  
+  // ============================================
+  // ALLOWLIST CHECK & START
+  // ============================================
+  
+  const isDefaultSite = DEFAULT_SITES.includes(hostname);
+  
+  if (isDefaultSite) {
+    // Default site: inject immediately, verify with storage
+    injectCSS();
+    injectScrim();
+    initP2Detection();
+    
+    // Check if user removed this default site
+    chrome.storage.sync.get(['allowlist'], (result) => {
+      if (result.allowlist && !result.allowlist.includes(hostname)) {
+        removeDarkMode();
+      }
+    });
+  } else {
+    // Non-default site: check storage first
+    chrome.storage.sync.get(['allowlist'], (result) => {
+      const allowlist = result.allowlist || DEFAULT_SITES;
+      if (allowlist.includes(hostname)) {
+        injectCSS();
+        injectScrim();
+        initP2Detection();
+      }
+    });
+  }
 })();
