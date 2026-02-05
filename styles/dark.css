@@ -258,6 +258,51 @@
 }
 
 /* ==========================================================================
+   TIPPY DROPDOWNS / POPOVERS
+   ========================================================================== */
+
+.p2-dark-mode-enabled .tippy-box,
+.p2-dark-mode-enabled .tippy-box[data-theme="p2-menu"],
+.p2-dark-mode-enabled .tippy-content,
+.p2-dark-mode-enabled div.tippy-content {
+  background: #1a1a1a !important;
+  background-color: #1a1a1a !important;
+  color: #c9c9c9 !important;
+  border-color: #3a3a3a !important;
+}
+
+/* Tippy arrow */
+.p2-dark-mode-enabled .tippy-box[data-theme="p2-menu"] > .tippy-arrow::before,
+.p2-dark-mode-enabled .tippy-arrow::before {
+  border-bottom-color: #1a1a1a !important;
+  border-top-color: #1a1a1a !important;
+}
+
+/* Menu items inside tippy */
+.p2-dark-mode-enabled .tippy-content button,
+.p2-dark-mode-enabled .tippy-content a,
+.p2-dark-mode-enabled .tippy-box button,
+.p2-dark-mode-enabled .tippy-box a {
+  background: transparent !important;
+  color: #c9c9c9 !important;
+}
+
+.p2-dark-mode-enabled .tippy-content button:hover,
+.p2-dark-mode-enabled .tippy-content a:hover,
+.p2-dark-mode-enabled .tippy-box button:hover,
+.p2-dark-mode-enabled .tippy-box a:hover {
+  background: #2e2e2e !important;
+}
+
+/* O2 dropdown actions */
+.p2-dark-mode-enabled .o2-dropdown-actions,
+.p2-dark-mode-enabled .o2-post-actions,
+.p2-dark-mode-enabled .o2-dropdown-actions-disclosure {
+  background: #1a1a1a !important;
+  color: #c9c9c9 !important;
+}
+
+/* ==========================================================================
    SIDEBAR - P2020 theme
    ========================================================================== */
 
