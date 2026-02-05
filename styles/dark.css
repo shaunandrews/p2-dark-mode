@@ -258,6 +258,27 @@
 }
 
 /* ==========================================================================
+   AI SUMMARY BLOCK
+   ========================================================================== */
+
+.p2-dark-mode-enabled .ai-summary,
+.p2-dark-mode-enabled .ai-summary__header,
+.p2-dark-mode-enabled .ai-summary__content,
+.p2-dark-mode-enabled .ai-summary__text,
+.p2-dark-mode-enabled div.ai-summary__content {
+  background: #1a1a1a !important;
+  background-color: #1a1a1a !important;
+  color: #c9c9c9 !important;
+  border-color: #3a3a3a !important;
+}
+
+/* AI summary feedback buttons */
+.p2-dark-mode-enabled .ai-summary button,
+.p2-dark-mode-enabled .ai-summary a {
+  color: #56a7d7 !important;
+}
+
+/* ==========================================================================
    TIPPY DROPDOWNS / POPOVERS
    ========================================================================== */
 
