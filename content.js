@@ -173,11 +173,11 @@
         <style>
           #p2-dark-mode-prompt {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
             background: #1a1a1a;
             color: #e6e6e6;
-            padding: 16px 20px;
+            padding: 12px 16px;
             border-radius: 10px;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 14px;
@@ -186,7 +186,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            max-width: 340px;
+            white-space: nowrap;
           }
           #p2-dark-mode-prompt button {
             padding: 8px 16px;
@@ -212,7 +212,7 @@
             color: #ccc;
           }
         </style>
-        <span>🌙 Enable dark mode on this P2?</span>
+        <span>Enable dark mode on this P2?</span>
         <button class="enable-btn">Enable</button>
         <button class="dismiss-btn">✕</button>
       `;
