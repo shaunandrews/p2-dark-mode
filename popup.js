@@ -18,6 +18,22 @@ async function getAllowlist() {
   return result.allowlist || DEFAULT_SITES;
 }
 
+// Get the denylist from storage
+async function getDenylist() {
+  const result = await chrome.storage.sync.get(['denylist']);
+  return result.denylist || [];
+}
+
+// Remove from denylist
+async function removeFromDenylist(hostname) {
+  const denylist = await getDenylist();
+  const index = denylist.indexOf(hostname);
+  if (index > -1) {
+    denylist.splice(index, 1);
+    await chrome.storage.sync.set({ denylist });
+  }
+}
+
 // Save the allowlist to storage
 async function saveAllowlist(sites) {
   await chrome.storage.sync.set({ allowlist: sites });
@@ -89,7 +105,9 @@ async function updateCurrentSite() {
     
     notWp.style.display = 'none';
     const sites = await getAllowlist();
+    const denylist = await getDenylist();
     const isEnabled = sites.includes(currentHostname);
+    const isDenied = denylist.includes(currentHostname);
     
     if (isEnabled) {
       statusEl.textContent = '✓ Dark mode enabled';
@@ -97,7 +115,9 @@ async function updateCurrentSite() {
       addBtn.style.display = 'none';
       removeBtn.style.display = 'block';
     } else {
-      statusEl.textContent = 'Dark mode not enabled';
+      statusEl.innerHTML = isDenied 
+        ? 'Dark mode not enabled<br><small style="color:#999">You dismissed the prompt for this site</small>'
+        : 'Dark mode not enabled';
       statusEl.className = 'current-site-status';
       addBtn.style.display = 'block';
       removeBtn.style.display = 'none';
@@ -116,6 +136,9 @@ async function addCurrentSite() {
     sites.push(currentHostname);
     await saveAllowlist(sites);
   }
+  
+  // Also remove from denylist if it was there
+  await removeFromDenylist(currentHostname);
   
   await renderSiteList();
   await updateCurrentSite();
