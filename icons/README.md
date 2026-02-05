@@ -1,30 +1,37 @@
 # Extension Icons
 
-This directory needs the following icon files:
+**Required sizes:**
+- `icon-16.png` — Toolbar icon (16×16)
+- `icon-48.png` — Extensions page (48×48)
+- `icon-128.png` — Chrome Web Store (128×128)
 
-- `icon-16.png` — 16×16 pixels (toolbar, favicon)
-- `icon-48.png` — 48×48 pixels (extensions page)
-- `icon-128.png` — 128×128 pixels (Chrome Web Store, install dialog)
+## Design
 
-## Design Guidelines
+Simple moon icon or "P2" text on dark background.
 
-- Simple, recognizable at small sizes
-- Suggested concepts:
-  - Moon icon (classic dark mode symbol)
-  - P2 logo variant with dark treatment
-  - Half-circle light/dark split
-- Use flat design, avoid gradients at 16px
-- Transparent background works well
+**Colors:**
+- Background: `#1a1a1a` (matches dark mode)
+- Accent: `#56a7d7` (link blue from palette)
 
-## Generating Icons
-
-If using an SVG source:
+## Quick Generate (if you have ImageMagick)
 
 ```bash
-# Example with ImageMagick
-convert icon.svg -resize 16x16 icon-16.png
-convert icon.svg -resize 48x48 icon-48.png
-convert icon.svg -resize 128x128 icon-128.png
+cd ~/Developer/Projects/p2-dark-mode/icons
+
+# Create a simple dark circle with blue accent
+for size in 16 48 128; do
+  convert -size ${size}x${size} xc:'#1a1a1a' \
+    -fill '#56a7d7' -draw "circle $((size/2)),$((size/2)) $((size/2)),$((size/4))" \
+    icon-${size}.png
+done
 ```
 
-Or use a tool like https://realfavicongenerator.net/
+## Or use an online tool
+
+1. Go to https://favicon.io or similar
+2. Create icon with "P2" text
+3. Download and rename to icon-16.png, icon-48.png, icon-128.png
+
+## Temporary workaround
+
+The extension works without icons — Chrome will show a generic puzzle piece.
