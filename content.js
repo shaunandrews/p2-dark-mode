@@ -116,8 +116,38 @@
   setTimeout(function() {
     if (!document.body.classList.contains('p2-dark-mode-enabled') && isP2Site()) {
       console.log('P2 Dark Mode: P2 detected on delayed check, applying styles');
-      document.documentElement.classList.add('p2-dark-mode-enabled');
-      document.body.classList.add('p2-dark-mode-enabled');
+      applyDarkMode(prefersDarkMode());
+    }
+    
+    // Force fix any stubborn white backgrounds
+    if (document.body.classList.contains('p2-dark-mode-enabled')) {
+      forceFixBackgrounds();
     }
   }, 1000);
+
+  /**
+   * Nuclear option: directly set background on stubborn elements
+   */
+  function forceFixBackgrounds() {
+    const darkBg = '#1a1a1a';
+    const selectors = [
+      'article',
+      'article.post',
+      '.post',
+      '.type-post',
+      '.hentry',
+      'main',
+      '#content'
+    ];
+    
+    selectors.forEach(function(sel) {
+      document.querySelectorAll(sel).forEach(function(el) {
+        const bg = getComputedStyle(el).backgroundColor;
+        if (bg === 'rgb(255, 255, 255)' || bg === 'white') {
+          el.style.setProperty('background-color', darkBg, 'important');
+          console.log('P2 Dark Mode: Force-fixed background on', sel);
+        }
+      });
+    });
+  }
 })();
